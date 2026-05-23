@@ -1,0 +1,1 @@
+Важно: этот проект делается на RedwoodJS. Не превращай его в обычный Vite/React/Nest проект. Не создавай самостоятельно api/web структуру, роутер, GraphQL-слой или CRUD-слои, если это уже предусмотрено RedwoodJS. Максимально используй Redwood CLI и Redwood conventions.

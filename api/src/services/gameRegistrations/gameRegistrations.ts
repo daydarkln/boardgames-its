@@ -66,13 +66,11 @@ export const myRegistrations: QueryResolvers['myRegistrations'] = () => {
 
 export const createGameRegistration: MutationResolvers['createGameRegistration'] =
   ({ input }) => {
-    requireAuth()
+    requireAuth({ roles: 'admin' })
 
     return db.gameRegistration.create({
       data: {
         ...input,
-        userId:
-          input.userId && isAdmin() ? input.userId : context.currentUser.id,
         status: input.status ?? 'APPROVED',
       },
     })

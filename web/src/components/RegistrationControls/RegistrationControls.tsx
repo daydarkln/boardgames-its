@@ -109,10 +109,11 @@ const RegistrationControls = ({ game }: RegistrationControlsProps) => {
   )
   const approvedCount =
     game.registrations?.filter(
-      (registration) => registration.status === 'APPROVED'
+      (registration) =>
+        registration.status === 'APPROVED' || registration.status === 'PENDING'
     ).length ?? 0
   const hasSeats = approvedCount < (game.maxPlayers ?? 0)
-  const canRegister = !myRegistration && hasSeats && game.status !== 'CANCELLED'
+  const canRegister = !myRegistration && hasSeats && game.status === 'PUBLISHED'
 
   return (
     <div className="grid gap-3">

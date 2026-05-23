@@ -197,47 +197,33 @@ const PlayerPostForm = (props: PlayerPostFormProps) => {
           <RadioField
             id="playerPost-experienceLevel-1"
             name="experienceLevel"
-            defaultValue="CASUAL"
+            defaultValue="INTERMEDIATE"
             defaultChecked={props.playerPost?.experienceLevel?.includes(
-              'CASUAL'
+              'INTERMEDIATE'
             )}
             className="rw-input"
             errorClassName="rw-input rw-input-error"
           />
-          <div>Casual</div>
+          <div>Intermediate</div>
         </div>
 
         <div className="rw-check-radio-items">
           <RadioField
             id="playerPost-experienceLevel-2"
             name="experienceLevel"
-            defaultValue="EXPERIENCED"
+            defaultValue="ADVANCED"
             defaultChecked={props.playerPost?.experienceLevel?.includes(
-              'EXPERIENCED'
+              'ADVANCED'
             )}
             className="rw-input"
             errorClassName="rw-input rw-input-error"
           />
-          <div>Experienced</div>
+          <div>Advanced</div>
         </div>
 
         <div className="rw-check-radio-items">
           <RadioField
             id="playerPost-experienceLevel-3"
-            name="experienceLevel"
-            defaultValue="EXPERT"
-            defaultChecked={props.playerPost?.experienceLevel?.includes(
-              'EXPERT'
-            )}
-            className="rw-input"
-            errorClassName="rw-input rw-input-error"
-          />
-          <div>Expert</div>
-        </div>
-
-        <div className="rw-check-radio-items">
-          <RadioField
-            id="playerPost-experienceLevel-4"
             name="experienceLevel"
             defaultValue="ANY"
             defaultChecked={props.playerPost?.experienceLevel?.includes('ANY')}
@@ -315,12 +301,12 @@ const PlayerPostForm = (props: PlayerPostFormProps) => {
           <RadioField
             id="playerPost-status-0"
             name="status"
-            defaultValue="OPEN"
-            defaultChecked={props.playerPost?.status?.includes('OPEN')}
+            defaultValue="ACTIVE"
+            defaultChecked={props.playerPost?.status?.includes('ACTIVE')}
             className="rw-input"
             errorClassName="rw-input rw-input-error"
           />
-          <div>Open</div>
+          <div>Active</div>
         </div>
 
         <div className="rw-check-radio-items">

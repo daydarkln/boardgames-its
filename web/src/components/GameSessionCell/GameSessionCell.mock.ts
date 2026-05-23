@@ -1,7 +1,52 @@
-// Define your own mock data here:
 export const standard = (/* vars, { ctx, req } */) => ({
   gameSession: {
     __typename: 'GameSession' as const,
     id: 42,
+    title: 'Крылья',
+    description: 'Партия для игроков со знанием правил.',
+    category: 'BOARD_GAMES' as const,
+    gameSystem: 'Wingspan',
+    date: '2026-06-01T16:00:00.000Z',
+    startTime: '16:00',
+    endTime: '19:00',
+    maxPlayers: 5,
+    minPlayers: 3,
+    status: 'PUBLISHED' as const,
+    experienceLevel: 'INTERMEDIATE' as const,
+    isOnline: false,
+    isPrivate: false,
+    requiresApproval: false,
+    locationDetails: null,
+    connectionInfo: null,
+    imageUrl: null,
+    tags: ['евро'],
+    organizerId: 1,
+    organizer: {
+      __typename: 'User' as const,
+      id: 1,
+      name: 'Алексей',
+      email: 'admin@example.com',
+    },
+    venue: {
+      __typename: 'Venue' as const,
+      id: 1,
+      name: 'Board Room',
+      address: 'Тверская, 12',
+      district: 'Тверская',
+    },
+    registrations: [
+      {
+        __typename: 'GameRegistration' as const,
+        id: 1,
+        status: 'APPROVED' as const,
+        userId: 2,
+        user: {
+          __typename: 'User' as const,
+          id: 2,
+          name: 'Мария',
+        },
+      },
+    ],
+    favorites: [],
   },
 })

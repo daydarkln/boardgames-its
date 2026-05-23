@@ -12,8 +12,11 @@ export const schema = gql`
     minPlayers: Int!
     status: GameSessionStatus!
     experienceLevel: ExperienceLevel!
+    isOnline: Boolean!
     isPrivate: Boolean!
     requiresApproval: Boolean!
+    locationDetails: String
+    connectionInfo: String
     imageUrl: String
     tags: [String]!
     createdAt: DateTime!
@@ -34,19 +37,16 @@ export const schema = gql`
 
   enum GameSessionStatus {
     DRAFT
-    OPEN
-    FULL
+    PUBLISHED
     CANCELLED
-    COMPLETED
-    HIDDEN
+    FINISHED
   }
 
   enum ExperienceLevel {
-    BEGINNER
-    CASUAL
-    EXPERIENCED
-    EXPERT
     ANY
+    BEGINNER
+    INTERMEDIATE
+    ADVANCED
   }
 
   type Query {
@@ -75,10 +75,13 @@ export const schema = gql`
     endTime: String
     maxPlayers: Int!
     minPlayers: Int!
-    status: GameSessionStatus!
+    status: GameSessionStatus
     experienceLevel: ExperienceLevel!
+    isOnline: Boolean!
     isPrivate: Boolean!
     requiresApproval: Boolean!
+    locationDetails: String
+    connectionInfo: String
     imageUrl: String
     tags: [String]!
     organizerId: Int
@@ -97,8 +100,11 @@ export const schema = gql`
     minPlayers: Int
     status: GameSessionStatus
     experienceLevel: ExperienceLevel
+    isOnline: Boolean
     isPrivate: Boolean
     requiresApproval: Boolean
+    locationDetails: String
+    connectionInfo: String
     imageUrl: String
     tags: [String]
     organizerId: Int
@@ -112,6 +118,8 @@ export const schema = gql`
     cancelGameSession(id: Int!): GameSession! @requireAuth
     registerForGameSession(id: Int!): GameRegistration! @requireAuth
     cancelGameSessionRegistration(id: Int!): GameRegistration! @requireAuth
+    approveGameRegistration(id: Int!): GameRegistration! @requireAuth
+    declineGameRegistration(id: Int!): GameRegistration! @requireAuth
     addFavoriteGameSession(id: Int!): FavoriteGameSession! @requireAuth
     removeFavoriteGameSession(id: Int!): FavoriteGameSession! @requireAuth
     deleteGameSession(id: Int!): GameSession! @requireAuth

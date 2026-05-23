@@ -26,10 +26,10 @@ const Routes = () => {
           <Route path="/admin/player-posts" page={AdminPlayerPostPlayerPostsPage} name="adminPlayerPosts" />
         </Set>
         <Set wrap={ScaffoldLayout} title="GameSessions" titleTo="adminGameSessions" buttonLabel="New GameSession" buttonTo="adminNewGameSession">
-          <Route path="/admin/game-sessions/new" page={AdminGameSessionNewGameSessionPage} name="adminNewGameSession" />
-          <Route path="/admin/game-sessions/{id:Int}/edit" page={AdminGameSessionEditGameSessionPage} name="adminEditGameSession" />
-          <Route path="/admin/game-sessions/{id:Int}" page={AdminGameSessionGameSessionPage} name="adminGameSession" />
-          <Route path="/admin/game-sessions" page={AdminGameSessionGameSessionsPage} name="adminGameSessions" />
+          <Route path="/admin/games/new" page={AdminGameSessionNewGameSessionPage} name="adminNewGameSession" />
+          <Route path="/admin/games/{id:Int}/edit" page={AdminGameSessionEditGameSessionPage} name="adminEditGameSession" />
+          <Route path="/admin/games/{id:Int}" page={AdminGameSessionGameSessionPage} name="adminGameSession" />
+          <Route path="/admin/games" page={AdminGameSessionGameSessionsPage} name="adminGameSessions" />
         </Set>
         <Set wrap={ScaffoldLayout} title="Venues" titleTo="adminVenues" buttonLabel="New Venue" buttonTo="adminNewVenue">
           <Route path="/admin/venues/new" page={AdminVenueNewVenuePage} name="adminNewVenue" />
@@ -43,6 +43,7 @@ const Routes = () => {
       </PrivateSet>
 
       <PrivateSet wrap={AccountLayout} unauthenticated="login">
+        <Route path="/account/favorites" page={AccountFavoritesPage} name="accountFavorites" />
         <Route path="/account/profile" page={AccountProfilePage} name="accountProfile" />
         <Route path="/account/create-game" page={AccountCreateGamePage} name="accountCreateGame" />
         <Route path="/account/my-registrations" page={AccountMyRegistrationsPage} name="accountMyRegistrations" />

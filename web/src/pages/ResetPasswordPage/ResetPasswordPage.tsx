@@ -7,11 +7,12 @@ import {
   Submit,
   FieldError,
 } from '@redwoodjs/forms'
-import { navigate, routes } from '@redwoodjs/router'
+import { navigate } from '@redwoodjs/router'
 import { Metadata } from '@redwoodjs/web'
 import { toast, Toaster } from '@redwoodjs/web/toast'
 
 import { useAuth } from 'src/auth'
+import { routePath } from 'src/lib/routes'
 
 const ResetPasswordPage = ({ resetToken }: { resetToken: string }) => {
   const { isAuthenticated, reauthenticate, validateResetToken, resetPassword } =
@@ -20,7 +21,7 @@ const ResetPasswordPage = ({ resetToken }: { resetToken: string }) => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate(routes.home())
+      navigate(routePath('home', '/'))
     }
   }, [isAuthenticated])
 
@@ -51,24 +52,22 @@ const ResetPasswordPage = ({ resetToken }: { resetToken: string }) => {
     if (response.error) {
       toast.error(response.error)
     } else {
-      toast.success('Password changed!')
+      toast.success('Пароль изменен')
       await reauthenticate()
-      navigate(routes.login())
+      navigate(routePath('login', '/login'))
     }
   }
 
   return (
     <>
-      <Metadata title="Reset Password" />
+      <Metadata title="Новый пароль" />
 
       <main className="rw-main">
         <Toaster toastOptions={{ className: 'rw-toast', duration: 6000 }} />
         <div className="rw-scaffold rw-login-container">
           <div className="rw-segment">
             <header className="rw-segment-header">
-              <h2 className="rw-heading rw-heading-secondary">
-                Reset Password
-              </h2>
+              <h2 className="rw-heading rw-heading-secondary">Новый пароль</h2>
             </header>
 
             <div className="rw-segment-main">
@@ -80,7 +79,7 @@ const ResetPasswordPage = ({ resetToken }: { resetToken: string }) => {
                       className="rw-label"
                       errorClassName="rw-label rw-label-error"
                     >
-                      New Password
+                      Новый пароль
                     </Label>
                     <PasswordField
                       name="password"
@@ -92,7 +91,7 @@ const ResetPasswordPage = ({ resetToken }: { resetToken: string }) => {
                       validation={{
                         required: {
                           value: true,
-                          message: 'New Password is required',
+                          message: 'Пароль обязателен',
                         },
                       }}
                     />
@@ -105,7 +104,7 @@ const ResetPasswordPage = ({ resetToken }: { resetToken: string }) => {
                       className="rw-button rw-button-blue"
                       disabled={!enabled}
                     >
-                      Submit
+                      Сохранить
                     </Submit>
                   </div>
                 </Form>

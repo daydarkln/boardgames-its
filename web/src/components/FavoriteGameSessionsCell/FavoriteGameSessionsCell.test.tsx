@@ -1,7 +1,7 @@
 import { render } from '@redwoodjs/testing/web'
 
-import { Loading, Empty, Failure, Success } from './FeaturedVenuesCell'
-import { standard } from './FeaturedVenuesCell.mock'
+import { Loading, Empty, Failure, Success } from './FavoriteGameSessionsCell'
+import { standard } from './FavoriteGameSessionsCell.mock'
 
 // Generated boilerplate tests do not account for all circumstances
 // and can fail without adjustments, e.g. Float and DateTime types.
@@ -9,7 +9,7 @@ import { standard } from './FeaturedVenuesCell.mock'
 //        https://redwoodjs.com/docs/testing#testing-cells
 // https://redwoodjs.com/docs/testing#jest-expect-type-considerations
 
-describe('FeaturedVenuesCell', () => {
+describe('FavoriteGameSessionsCell', () => {
   it('renders Loading successfully', () => {
     expect(() => {
       render(<Loading />)
@@ -36,7 +36,7 @@ describe('FeaturedVenuesCell', () => {
 
   it('renders Success successfully', async () => {
     expect(() => {
-      render(<Success venues={standard().venues} />)
+      render(<Success favoriteGameSessions={standard().favoriteGameSessions} />)
     }).not.toThrow()
   })
 })

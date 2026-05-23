@@ -45,6 +45,8 @@ export const getCurrentUser = async (session: Decoded) => {
         city: true,
         district: true,
         bio: true,
+        favoriteDirections: true,
+        favoriteGamesText: true,
         experienceLevel: true,
         role: true,
       },

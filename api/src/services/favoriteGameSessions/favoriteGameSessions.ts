@@ -4,6 +4,8 @@ import type {
   FavoriteGameSessionRelationResolvers,
 } from 'types/graphql'
 
+import { ForbiddenError, ValidationError } from '@redwoodjs/graphql-server'
+
 import { requireAuth } from 'src/lib/auth'
 import { db } from 'src/lib/db'
 
@@ -27,8 +29,8 @@ export const favoriteGameSession: QueryResolvers['favoriteGameSession'] = ({
 }) => {
   requireAuth()
 
-  return db.favoriteGameSession.findUnique({
-    where: { id },
+  return db.favoriteGameSession.findFirst({
+    where: isAdmin() ? { id } : { id, userId: context.currentUser.id },
   })
 }
 
@@ -64,8 +66,18 @@ export const updateFavoriteGameSession: MutationResolvers['updateFavoriteGameSes
   }
 
 export const deleteFavoriteGameSession: MutationResolvers['deleteFavoriteGameSession'] =
-  ({ id }) => {
+  async ({ id }) => {
     requireAuth()
+
+    const favorite = await db.favoriteGameSession.findUnique({ where: { id } })
+
+    if (!favorite) {
+      throw new ValidationError('Избранная игра не найдена')
+    }
+
+    if (!isAdmin() && favorite.userId !== context.currentUser.id) {
+      throw new ForbiddenError('Можно удалять только свое избранное')
+    }
 
     return db.favoriteGameSession.delete({
       where: { id },

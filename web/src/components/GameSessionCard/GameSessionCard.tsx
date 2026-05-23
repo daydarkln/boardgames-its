@@ -54,7 +54,8 @@ const GameSessionCard = ({ game, compact = false }: GameSessionCardProps) => {
 
   const approvedPlayers =
     game.registrations?.filter(
-      (registration) => registration.status === 'APPROVED'
+      (registration) =>
+        registration.status === 'APPROVED' || registration.status === 'PENDING'
     ).length ?? 0
   const freeSeats = Math.max((game.maxPlayers ?? 0) - approvedPlayers, 0)
   const tone =

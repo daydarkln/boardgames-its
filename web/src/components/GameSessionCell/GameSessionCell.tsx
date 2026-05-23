@@ -35,8 +35,11 @@ export const QUERY: TypedDocumentNode<
       minPlayers
       status
       experienceLevel
+      isOnline
       isPrivate
       requiresApproval
+      locationDetails
+      connectionInfo
       imageUrl
       tags
       organizerId
@@ -114,8 +117,19 @@ export const Success = ({
             {gameSession.endTime ? ` - ${gameSession.endTime}` : ''}
           </span>
           <span>
-            Место: {gameSession.venue?.name ?? 'Онлайн или уточняется'}
+            Место:{' '}
+            {gameSession.isOnline
+              ? 'Онлайн'
+              : (gameSession.venue?.name ??
+                gameSession.locationDetails ??
+                'Уточняется')}
           </span>
+          {gameSession.isOnline && (
+            <span>
+              Подключение:{' '}
+              {gameSession.connectionInfo ?? 'Организатор сообщит детали'}
+            </span>
+          )}
           <span>
             Организатор:{' '}
             {gameSession.organizer.name ?? gameSession.organizer.email}

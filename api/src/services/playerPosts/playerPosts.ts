@@ -102,7 +102,7 @@ export const createPlayerPost: MutationResolvers['createPlayerPost'] = ({
       authorId:
         input.authorId && isAdmin() ? input.authorId : context.currentUser.id,
       tags: input.tags ?? [],
-      status: input.status ?? 'OPEN',
+      status: input.status ?? 'ACTIVE',
     },
   })
 }

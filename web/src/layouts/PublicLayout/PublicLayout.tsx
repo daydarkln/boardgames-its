@@ -2,12 +2,13 @@ import type { ReactNode } from 'react'
 
 import { LogOut, Menu, Search, Sparkles, X } from 'lucide-react'
 
-import { Link, NavLink, routes } from '@redwoodjs/router'
+import { Link, NavLink } from '@redwoodjs/router'
 import { Toaster } from '@redwoodjs/web/toast'
 
 import { useAuth } from 'src/auth'
 import Button from 'src/components/Button/Button'
 import { cn } from 'src/lib/cn'
+import { routePath } from 'src/lib/routes'
 import { useUiStore } from 'src/stores/uiStore'
 
 type PublicLayoutProps = {
@@ -15,12 +16,12 @@ type PublicLayoutProps = {
 }
 
 const navItems = [
-  ['Игры', routes.games()],
-  ['Места', routes.venues()],
-  ['Люди', routes.players()],
-  ['События', routes.games()],
-  ['Сообщество', routes.players()],
-  ['О проекте', routes.about()],
+  ['Игры', routePath('games', '/games')],
+  ['Места', routePath('venues', '/venues')],
+  ['Люди', routePath('players', '/players')],
+  ['События', routePath('games', '/games')],
+  ['Сообщество', routePath('players', '/players')],
+  ['О проекте', routePath('about', '/about')],
 ]
 
 const PublicLayout = ({ children }: PublicLayoutProps) => {
@@ -34,7 +35,7 @@ const PublicLayout = ({ children }: PublicLayoutProps) => {
       <Toaster toastOptions={{ duration: 5000 }} />
       <header className="bg-slate-950/82 sticky top-0 z-40 border-b border-white/10 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
-          <Link to={routes.home()} className="flex items-center gap-3">
+          <Link to={routePath('home', '/')} className="flex items-center gap-3">
             <span className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-orange-500 to-pink-600 text-white shadow-lg shadow-pink-950/30">
               <Sparkles className="h-5 w-5" />
             </span>
@@ -69,7 +70,11 @@ const PublicLayout = ({ children }: PublicLayoutProps) => {
           <div className="ml-auto hidden items-center gap-2 lg:ml-0 lg:flex">
             {isAuthenticated ? (
               <>
-                <Button to={routes.account()} variant="secondary" size="sm">
+                <Button
+                  to={routePath('account', '/account')}
+                  variant="secondary"
+                  size="sm"
+                >
                   {currentUser?.name ?? 'Кабинет'}
                 </Button>
                 <button
@@ -82,11 +87,18 @@ const PublicLayout = ({ children }: PublicLayoutProps) => {
                 </button>
               </>
             ) : (
-              <Button to={routes.login()} variant="secondary" size="sm">
+              <Button
+                to={routePath('login', '/login')}
+                variant="secondary"
+                size="sm"
+              >
                 Войти
               </Button>
             )}
-            <Button to={routes.accountCreateGame()} size="sm">
+            <Button
+              to={routePath('accountCreateGame', '/account/create-game')}
+              size="sm"
+            >
               Создать игру
             </Button>
           </div>
@@ -121,10 +133,16 @@ const PublicLayout = ({ children }: PublicLayoutProps) => {
                 {label}
               </Link>
             ))}
-            <Button to={routes.login()} variant="secondary" className="mt-2">
+            <Button
+              to={routePath('login', '/login')}
+              variant="secondary"
+              className="mt-2"
+            >
               Войти
             </Button>
-            <Button to={routes.accountCreateGame()}>Создать игру</Button>
+            <Button to={routePath('accountCreateGame', '/account/create-game')}>
+              Создать игру
+            </Button>
           </nav>
         </div>
       </header>

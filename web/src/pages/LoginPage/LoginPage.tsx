@@ -8,18 +8,19 @@ import {
   Submit,
   FieldError,
 } from '@redwoodjs/forms'
-import { Link, navigate, routes } from '@redwoodjs/router'
+import { Link, navigate } from '@redwoodjs/router'
 import { Metadata } from '@redwoodjs/web'
 import { toast, Toaster } from '@redwoodjs/web/toast'
 
 import { useAuth } from 'src/auth'
+import { routePath } from 'src/lib/routes'
 
 const LoginPage = () => {
   const { isAuthenticated, logIn } = useAuth()
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate(routes.home())
+      navigate(routePath('home', '/'))
     }
   }, [isAuthenticated])
 
@@ -39,20 +40,20 @@ const LoginPage = () => {
     } else if (response.error) {
       toast.error(response.error)
     } else {
-      toast.success('Welcome back!')
+      toast.success('Вы вошли')
     }
   }
 
   return (
     <>
-      <Metadata title="Login" />
+      <Metadata title="Вход" />
 
       <main className="rw-main">
         <Toaster toastOptions={{ className: 'rw-toast', duration: 6000 }} />
         <div className="rw-scaffold rw-login-container">
           <div className="rw-segment">
             <header className="rw-segment-header">
-              <h2 className="rw-heading rw-heading-secondary">Login</h2>
+              <h2 className="rw-heading rw-heading-secondary">Вход</h2>
             </header>
 
             <div className="rw-segment-main">
@@ -73,7 +74,11 @@ const LoginPage = () => {
                     validation={{
                       required: {
                         value: true,
-                        message: 'Email is required',
+                        message: 'Email обязателен',
+                      },
+                      pattern: {
+                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                        message: 'Введите корректный email',
                       },
                     }}
                   />
@@ -85,7 +90,7 @@ const LoginPage = () => {
                     className="rw-label"
                     errorClassName="rw-label rw-label-error"
                   >
-                    Password
+                    Пароль
                   </Label>
                   <PasswordField
                     name="password"
@@ -95,33 +100,33 @@ const LoginPage = () => {
                     validation={{
                       required: {
                         value: true,
-                        message: 'Password is required',
+                        message: 'Пароль обязателен',
                       },
                     }}
                   />
 
                   <div className="rw-forgot-link">
                     <Link
-                      to={routes.forgotPassword()}
+                      to={routePath('forgotPassword', '/forgot-password')}
                       className="rw-forgot-link"
                     >
-                      Forgot Password?
+                      Забыли пароль?
                     </Link>
                   </div>
 
                   <FieldError name="password" className="rw-field-error" />
 
                   <div className="rw-button-group">
-                    <Submit className="rw-button rw-button-blue">Login</Submit>
+                    <Submit className="rw-button rw-button-blue">Войти</Submit>
                   </div>
                 </Form>
               </div>
             </div>
           </div>
           <div className="rw-login-link">
-            <span>Don&apos;t have an account?</span>{' '}
-            <Link to={routes.signup()} className="rw-link">
-              Sign up!
+            <span>Нет аккаунта?</span>{' '}
+            <Link to={routePath('signup', '/signup')} className="rw-link">
+              Зарегистрироваться
             </Link>
           </div>
         </div>

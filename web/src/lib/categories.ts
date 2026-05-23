@@ -108,11 +108,10 @@ export const formatCategory = (category?: string | null) =>
 
 export const formatExperience = (value?: string | null) => {
   const labels: Record<string, string> = {
-    BEGINNER: 'Новичок',
-    CASUAL: 'Любитель',
-    EXPERIENCED: 'Опытный',
-    EXPERT: 'Эксперт',
     ANY: 'Любой опыт',
+    BEGINNER: 'Новичок',
+    INTERMEDIATE: 'Средний',
+    ADVANCED: 'Продвинутый',
   }
 
   return value ? (labels[value] ?? value) : 'Любой опыт'
@@ -121,11 +120,10 @@ export const formatExperience = (value?: string | null) => {
 export const formatStatus = (value?: string | null) => {
   const labels: Record<string, string> = {
     DRAFT: 'Черновик',
-    OPEN: 'Открыта',
-    FULL: 'Мест нет',
+    PUBLISHED: 'Опубликована',
     CANCELLED: 'Отменена',
-    COMPLETED: 'Завершена',
-    HIDDEN: 'Скрыта',
+    FINISHED: 'Завершена',
+    ACTIVE: 'Активно',
     PENDING: 'Ожидает',
     APPROVED: 'Подтверждена',
     DECLINED: 'Отклонена',

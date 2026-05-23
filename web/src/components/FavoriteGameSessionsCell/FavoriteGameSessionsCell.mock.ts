@@ -1,7 +1,6 @@
-const registration = (id: number) => ({
-  __typename: 'GameRegistration' as const,
+const favorite = (id: number) => ({
+  __typename: 'FavoriteGameSession' as const,
   id,
-  status: 'APPROVED' as const,
   gameSession: {
     __typename: 'GameSession' as const,
     id,
@@ -20,15 +19,10 @@ const registration = (id: number) => ({
       district: 'Тверская',
       address: 'Тверская, 12',
     },
-    registrations: [
-      {
-        __typename: 'GameRegistration' as const,
-        status: 'APPROVED' as const,
-      },
-    ],
+    registrations: [],
   },
 })
 
 export const standard = (/* vars, { ctx, req } */) => ({
-  myRegistrations: [registration(42), registration(43), registration(44)],
+  favoriteGameSessions: [favorite(42), favorite(43), favorite(44)],
 })

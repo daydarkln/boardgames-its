@@ -1,9 +1,9 @@
-import { routes } from '@redwoodjs/router'
 import { Metadata } from '@redwoodjs/web'
 
 import Button from 'src/components/Button/Button'
 import Card from 'src/components/Card/Card'
 import PageHeader from 'src/components/PageHeader/PageHeader'
+import { routePath } from 'src/lib/routes'
 
 const AdminPage = () => {
   return (
@@ -17,10 +17,10 @@ const AdminPage = () => {
       />
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         {[
-          ['Игры', routes.adminGameSessions()],
-          ['Площадки', routes.adminVenues()],
-          ['Пользователи', routes.adminUsers()],
-          ['Объявления', routes.adminPlayerPosts()],
+          ['Игры', routePath('adminGameSessions', '/admin/games')],
+          ['Площадки', routePath('adminVenues', '/admin/venues')],
+          ['Пользователи', routePath('adminUsers', '/admin/users')],
+          ['Объявления', routePath('adminPlayerPosts', '/admin/player-posts')],
         ].map(([title, to]) => (
           <Card key={title} className="p-5">
             <h2 className="text-xl font-black text-white">{title}</h2>

@@ -1,19 +1,20 @@
 import type { ReactNode } from 'react'
 
-import { NavLink, routes } from '@redwoodjs/router'
+import { NavLink } from '@redwoodjs/router'
 
 import PublicLayout from 'src/layouts/PublicLayout/PublicLayout'
+import { routePath } from 'src/lib/routes'
 
 type AdminLayoutProps = {
   children?: ReactNode
 }
 
 const adminNav = [
-  ['Обзор', routes.admin()],
-  ['Игры', routes.adminGameSessions()],
-  ['Площадки', routes.adminVenues()],
-  ['Пользователи', routes.adminUsers()],
-  ['Объявления', routes.adminPlayerPosts()],
+  ['Обзор', routePath('admin', '/admin')],
+  ['Игры', routePath('adminGameSessions', '/admin/games')],
+  ['Площадки', routePath('adminVenues', '/admin/venues')],
+  ['Пользователи', routePath('adminUsers', '/admin/users')],
+  ['Объявления', routePath('adminPlayerPosts', '/admin/player-posts')],
 ]
 
 const AdminLayout = ({ children }: AdminLayoutProps) => {

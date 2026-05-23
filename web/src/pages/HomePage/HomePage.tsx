@@ -1,6 +1,5 @@
 import { CalendarDays, Map, MapPin, Users } from 'lucide-react'
 
-import { routes } from '@redwoodjs/router'
 import { Metadata } from '@redwoodjs/web'
 
 import Button from 'src/components/Button/Button'
@@ -9,27 +8,33 @@ import FeaturedVenuesCell from 'src/components/FeaturedVenuesCell'
 import HeroSkewSlider from 'src/components/HeroSkewSlider/HeroSkewSlider'
 import LatestPlayerPostsCell from 'src/components/LatestPlayerPostsCell'
 import UpcomingGameSessionsCell from 'src/components/UpcomingGameSessionsCell'
+import { routePath } from 'src/lib/routes'
 
 const quickActions = [
   [
     'Найти место',
     'Клубы, кафе и антикафе рядом с тобой',
-    routes.venues(),
+    routePath('venues', '/venues'),
     MapPin,
   ],
   [
     'Найти игроков',
     'Играй своей компанией или собери новую',
-    routes.players(),
+    routePath('players', '/players'),
     Users,
   ],
   [
     'Ближайшие игры',
     'Сегодня, завтра и на выходных',
-    routes.games(),
+    routePath('games', '/games'),
     CalendarDays,
   ],
-  ['Карта сообщества', 'Смотри, что происходит в городе', routes.venues(), Map],
+  [
+    'Карта сообщества',
+    'Смотри, что происходит в городе',
+    routePath('venues', '/venues'),
+    Map,
+  ],
 ]
 
 const HomePage = () => {
@@ -80,7 +85,7 @@ const HomePage = () => {
             <h2 className="text-3xl font-black text-white">
               Ближайшие игры и события
             </h2>
-            <Button to={routes.games()} variant="ghost" size="sm">
+            <Button to={routePath('games', '/games')} variant="ghost" size="sm">
               Смотреть все
             </Button>
           </div>
@@ -90,7 +95,11 @@ const HomePage = () => {
         <section className="mt-10">
           <div className="mb-4 flex items-end justify-between gap-4">
             <h2 className="text-3xl font-black text-white">Клубы и площадки</h2>
-            <Button to={routes.venues()} variant="ghost" size="sm">
+            <Button
+              to={routePath('venues', '/venues')}
+              variant="ghost"
+              size="sm"
+            >
               Смотреть все
             </Button>
           </div>
@@ -102,7 +111,11 @@ const HomePage = () => {
             <h2 className="text-3xl font-black text-white">
               Найди игроков или собери группу
             </h2>
-            <Button to={routes.players()} variant="ghost" size="sm">
+            <Button
+              to={routePath('players', '/players')}
+              variant="ghost"
+              size="sm"
+            >
               Смотреть все
             </Button>
           </div>

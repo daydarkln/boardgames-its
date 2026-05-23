@@ -258,29 +258,17 @@ const GameSessionForm = (props: GameSessionFormProps) => {
           <RadioField
             id="gameSession-status-1"
             name="status"
-            defaultValue="OPEN"
-            defaultChecked={props.gameSession?.status?.includes('OPEN')}
+            defaultValue="PUBLISHED"
+            defaultChecked={props.gameSession?.status?.includes('PUBLISHED')}
             className="rw-input"
             errorClassName="rw-input rw-input-error"
           />
-          <div>Open</div>
+          <div>Published</div>
         </div>
 
         <div className="rw-check-radio-items">
           <RadioField
             id="gameSession-status-2"
-            name="status"
-            defaultValue="FULL"
-            defaultChecked={props.gameSession?.status?.includes('FULL')}
-            className="rw-input"
-            errorClassName="rw-input rw-input-error"
-          />
-          <div>Full</div>
-        </div>
-
-        <div className="rw-check-radio-items">
-          <RadioField
-            id="gameSession-status-3"
             name="status"
             defaultValue="CANCELLED"
             defaultChecked={props.gameSession?.status?.includes('CANCELLED')}
@@ -292,26 +280,14 @@ const GameSessionForm = (props: GameSessionFormProps) => {
 
         <div className="rw-check-radio-items">
           <RadioField
-            id="gameSession-status-4"
+            id="gameSession-status-3"
             name="status"
-            defaultValue="COMPLETED"
-            defaultChecked={props.gameSession?.status?.includes('COMPLETED')}
+            defaultValue="FINISHED"
+            defaultChecked={props.gameSession?.status?.includes('FINISHED')}
             className="rw-input"
             errorClassName="rw-input rw-input-error"
           />
-          <div>Completed</div>
-        </div>
-
-        <div className="rw-check-radio-items">
-          <RadioField
-            id="gameSession-status-5"
-            name="status"
-            defaultValue="HIDDEN"
-            defaultChecked={props.gameSession?.status?.includes('HIDDEN')}
-            className="rw-input"
-            errorClassName="rw-input rw-input-error"
-          />
-          <div>Hidden</div>
+          <div>Finished</div>
         </div>
 
         <FieldError name="status" className="rw-field-error" />
@@ -342,47 +318,33 @@ const GameSessionForm = (props: GameSessionFormProps) => {
           <RadioField
             id="gameSession-experienceLevel-1"
             name="experienceLevel"
-            defaultValue="CASUAL"
+            defaultValue="INTERMEDIATE"
             defaultChecked={props.gameSession?.experienceLevel?.includes(
-              'CASUAL'
+              'INTERMEDIATE'
             )}
             className="rw-input"
             errorClassName="rw-input rw-input-error"
           />
-          <div>Casual</div>
+          <div>Intermediate</div>
         </div>
 
         <div className="rw-check-radio-items">
           <RadioField
             id="gameSession-experienceLevel-2"
             name="experienceLevel"
-            defaultValue="EXPERIENCED"
+            defaultValue="ADVANCED"
             defaultChecked={props.gameSession?.experienceLevel?.includes(
-              'EXPERIENCED'
+              'ADVANCED'
             )}
             className="rw-input"
             errorClassName="rw-input rw-input-error"
           />
-          <div>Experienced</div>
+          <div>Advanced</div>
         </div>
 
         <div className="rw-check-radio-items">
           <RadioField
             id="gameSession-experienceLevel-3"
-            name="experienceLevel"
-            defaultValue="EXPERT"
-            defaultChecked={props.gameSession?.experienceLevel?.includes(
-              'EXPERT'
-            )}
-            className="rw-input"
-            errorClassName="rw-input rw-input-error"
-          />
-          <div>Expert</div>
-        </div>
-
-        <div className="rw-check-radio-items">
-          <RadioField
-            id="gameSession-experienceLevel-4"
             name="experienceLevel"
             defaultValue="ANY"
             defaultChecked={props.gameSession?.experienceLevel?.includes('ANY')}
@@ -393,6 +355,23 @@ const GameSessionForm = (props: GameSessionFormProps) => {
         </div>
 
         <FieldError name="experienceLevel" className="rw-field-error" />
+
+        <Label
+          name="isOnline"
+          className="rw-label"
+          errorClassName="rw-label rw-label-error"
+        >
+          Is online
+        </Label>
+
+        <CheckboxField
+          name="isOnline"
+          defaultChecked={props.gameSession?.isOnline}
+          className="rw-input"
+          errorClassName="rw-input rw-input-error"
+        />
+
+        <FieldError name="isOnline" className="rw-field-error" />
 
         <Label
           name="isPrivate"
@@ -427,6 +406,40 @@ const GameSessionForm = (props: GameSessionFormProps) => {
         />
 
         <FieldError name="requiresApproval" className="rw-field-error" />
+
+        <Label
+          name="locationDetails"
+          className="rw-label"
+          errorClassName="rw-label rw-label-error"
+        >
+          Location details
+        </Label>
+
+        <TextField
+          name="locationDetails"
+          defaultValue={props.gameSession?.locationDetails}
+          className="rw-input"
+          errorClassName="rw-input rw-input-error"
+        />
+
+        <FieldError name="locationDetails" className="rw-field-error" />
+
+        <Label
+          name="connectionInfo"
+          className="rw-label"
+          errorClassName="rw-label rw-label-error"
+        >
+          Connection info
+        </Label>
+
+        <TextField
+          name="connectionInfo"
+          defaultValue={props.gameSession?.connectionInfo}
+          className="rw-input"
+          errorClassName="rw-input rw-input-error"
+        />
+
+        <FieldError name="connectionInfo" className="rw-field-error" />
 
         <Label
           name="imageUrl"

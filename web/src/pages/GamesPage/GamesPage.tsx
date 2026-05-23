@@ -46,9 +46,8 @@ const GamesPage = () => {
           >
             <option value="">Любой опыт</option>
             <option value="BEGINNER">Новичок</option>
-            <option value="CASUAL">Любитель</option>
-            <option value="EXPERIENCED">Опытный</option>
-            <option value="EXPERT">Эксперт</option>
+            <option value="INTERMEDIATE">Средний</option>
+            <option value="ADVANCED">Продвинутый</option>
           </Select>
           <Select
             value={filters.district}

@@ -2,19 +2,29 @@ import type { ReactNode } from 'react'
 
 import { CalendarPlus, ClipboardList, Heart, UserRound } from 'lucide-react'
 
-import { NavLink, routes } from '@redwoodjs/router'
+import { NavLink } from '@redwoodjs/router'
 
 import PublicLayout from 'src/layouts/PublicLayout/PublicLayout'
+import { routePath } from 'src/lib/routes'
 
 type AccountLayoutProps = {
   children?: ReactNode
 }
 
 const accountNav = [
-  ['Мои игры', routes.accountMyGames(), ClipboardList],
-  ['Мои записи', routes.accountMyRegistrations(), Heart],
-  ['Создать игру', routes.accountCreateGame(), CalendarPlus],
-  ['Профиль', routes.accountProfile(), UserRound],
+  ['Мои игры', routePath('accountMyGames', '/account/my-games'), ClipboardList],
+  [
+    'Мои записи',
+    routePath('accountMyRegistrations', '/account/my-registrations'),
+    Heart,
+  ],
+  [
+    'Создать игру',
+    routePath('accountCreateGame', '/account/create-game'),
+    CalendarPlus,
+  ],
+  ['Профиль', routePath('accountProfile', '/account/profile'), UserRound],
+  ['Избранное', routePath('accountFavorites', '/account/favorites'), Heart],
 ]
 
 const AccountLayout = ({ children }: AccountLayoutProps) => {

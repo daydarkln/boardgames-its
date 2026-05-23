@@ -195,23 +195,19 @@ const UserForm = (props: UserFormProps) => {
         >
           Experience level
         </Label>
-        {['BEGINNER', 'CASUAL', 'EXPERIENCED', 'EXPERT', 'ANY'].map(
-          (value, index) => (
-            <label key={value} className="rw-check-radio-items">
-              <RadioField
-                id={`user-experienceLevel-${index}`}
-                name="experienceLevel"
-                defaultValue={value}
-                defaultChecked={
-                  (props.user?.experienceLevel ?? 'ANY') === value
-                }
-                className="rw-input"
-                errorClassName="rw-input rw-input-error"
-              />
-              <span>{value}</span>
-            </label>
-          )
-        )}
+        {['ANY', 'BEGINNER', 'INTERMEDIATE', 'ADVANCED'].map((value, index) => (
+          <label key={value} className="rw-check-radio-items">
+            <RadioField
+              id={`user-experienceLevel-${index}`}
+              name="experienceLevel"
+              defaultValue={value}
+              defaultChecked={(props.user?.experienceLevel ?? 'ANY') === value}
+              className="rw-input"
+              errorClassName="rw-input rw-input-error"
+            />
+            <span>{value}</span>
+          </label>
+        ))}
 
         <Label
           name="role"

@@ -7,6 +7,13 @@ const passwordFor = (password: string) => {
   return { hashedPassword, salt }
 }
 
+const daysFromNow = (days: number, hour: number, minute = 0) => {
+  const date = new Date()
+  date.setDate(date.getDate() + days)
+  date.setHours(hour, minute, 0, 0)
+  return date
+}
+
 export default async () => {
   await db.favoriteGameSession.deleteMany()
   await db.gameRegistration.deleteMany()
@@ -23,7 +30,7 @@ export default async () => {
       city: 'Москва',
       district: 'Тверская',
       bio: 'Организатор городских игр и модератор площадки.',
-      experienceLevel: 'EXPERIENCED',
+      experienceLevel: 'INTERMEDIATE',
       favoriteDirections: ['BOARD_GAMES', 'TTRPG', 'MAFIA'],
       favoriteGamesText: 'Покорение Марса, D&D 5e, Мафия Classic',
       ...passwordFor('password123'),
@@ -38,7 +45,7 @@ export default async () => {
       city: 'Москва',
       district: 'Бауманская',
       bio: 'Люблю евро и камерные НРИ для новичков.',
-      experienceLevel: 'CASUAL',
+      experienceLevel: 'INTERMEDIATE',
       favoriteDirections: ['BOARD_GAMES', 'TTRPG'],
       favoriteGamesText: 'Крылья, One Shot, Каркассон',
       ...passwordFor('password123'),
@@ -97,12 +104,12 @@ export default async () => {
       description:
         'Спокойная партия в Wingspan для игроков, которые уже знают базовые правила.',
       category: 'BOARD_GAMES',
-      date: new Date('2026-05-24T16:00:00.000Z'),
+      date: daysFromNow(1, 16),
       startTime: '16:00',
       endTime: '19:00',
       maxPlayers: 5,
       minPlayers: 3,
-      experienceLevel: 'CASUAL',
+      experienceLevel: 'INTERMEDIATE',
       tags: ['евро', 'птицы', 'спокойная партия'],
       organizerId: admin.id,
       venueId: boardRoom.id,
@@ -118,7 +125,7 @@ export default async () => {
         'One-shot для новичков: персонажи готовы, правила объясним за столом.',
       category: 'TTRPG',
       gameSystem: 'D&D 5e',
-      date: new Date('2026-05-24T18:00:00.000Z'),
+      date: daysFromNow(1, 18),
       startTime: '18:00',
       endTime: '22:30',
       maxPlayers: 6,
@@ -139,7 +146,7 @@ export default async () => {
       description:
         'Классическая ролевая мафия с ведущим, живым общением и быстрыми раундами.',
       category: 'MAFIA',
-      date: new Date('2026-05-24T20:00:00.000Z'),
+      date: daysFromNow(2, 20),
       startTime: '20:00',
       endTime: '23:30',
       maxPlayers: 10,
@@ -172,7 +179,7 @@ export default async () => {
         description: 'Нужны 2 игрока на спокойную партию в выходные.',
         category: 'BOARD_GAMES',
         district: 'Тверская',
-        experienceLevel: 'CASUAL',
+        experienceLevel: 'INTERMEDIATE',
         neededPlayers: 4,
         currentPlayers: 2,
         tags: ['евро', 'марс'],

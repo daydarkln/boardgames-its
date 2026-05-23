@@ -30,8 +30,11 @@ export const QUERY: TypedDocumentNode<EditGameSessionById> = gql`
       minPlayers
       status
       experienceLevel
+      isOnline
       isPrivate
       requiresApproval
+      locationDetails
+      connectionInfo
       imageUrl
       tags
       createdAt
@@ -63,8 +66,11 @@ const UPDATE_GAME_SESSION_MUTATION: TypedDocumentNode<
       minPlayers
       status
       experienceLevel
+      isOnline
       isPrivate
       requiresApproval
+      locationDetails
+      connectionInfo
       imageUrl
       tags
       createdAt

@@ -36,7 +36,7 @@ describe('UpcomingGameSessionsCell', () => {
 
   it('renders Success successfully', async () => {
     expect(() => {
-      render(<Success upcomingGameSessions={standard().upcomingGameSessions} />)
+      render(<Success gameSessions={standard().gameSessions} />)
     }).not.toThrow()
   })
 })

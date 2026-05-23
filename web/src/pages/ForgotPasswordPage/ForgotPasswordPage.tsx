@@ -1,18 +1,19 @@
 import { useEffect, useRef } from 'react'
 
 import { Form, Label, TextField, Submit, FieldError } from '@redwoodjs/forms'
-import { navigate, routes } from '@redwoodjs/router'
+import { navigate } from '@redwoodjs/router'
 import { Metadata } from '@redwoodjs/web'
 import { toast, Toaster } from '@redwoodjs/web/toast'
 
 import { useAuth } from 'src/auth'
+import { routePath } from 'src/lib/routes'
 
 const ForgotPasswordPage = () => {
   const { isAuthenticated, forgotPassword } = useAuth()
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate(routes.home())
+      navigate(routePath('home', '/'))
     }
   }, [isAuthenticated])
 
@@ -30,16 +31,14 @@ const ForgotPasswordPage = () => {
       // The function `forgotPassword.handler` in api/src/functions/auth.js has
       // been invoked, let the user know how to get the link to reset their
       // password (sent in email, perhaps?)
-      toast.success(
-        'A link to reset your password was sent to ' + response.email
-      )
-      navigate(routes.login())
+      toast.success('Ссылка для сброса пароля отправлена на ' + response.email)
+      navigate(routePath('login', '/login'))
     }
   }
 
   return (
     <>
-      <Metadata title="Forgot Password" />
+      <Metadata title="Восстановление пароля" />
 
       <main className="rw-main">
         <Toaster toastOptions={{ className: 'rw-toast', duration: 6000 }} />
@@ -47,7 +46,7 @@ const ForgotPasswordPage = () => {
           <div className="rw-segment">
             <header className="rw-segment-header">
               <h2 className="rw-heading rw-heading-secondary">
-                Forgot Password
+                Восстановление пароля
               </h2>
             </header>
 
@@ -70,7 +69,11 @@ const ForgotPasswordPage = () => {
                       validation={{
                         required: {
                           value: true,
-                          message: 'Email is required',
+                          message: 'Email обязателен',
+                        },
+                        pattern: {
+                          value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                          message: 'Введите корректный email',
                         },
                       }}
                     />
@@ -79,7 +82,9 @@ const ForgotPasswordPage = () => {
                   </div>
 
                   <div className="rw-button-group">
-                    <Submit className="rw-button rw-button-blue">Submit</Submit>
+                    <Submit className="rw-button rw-button-blue">
+                      Отправить
+                    </Submit>
                   </div>
                 </Form>
               </div>

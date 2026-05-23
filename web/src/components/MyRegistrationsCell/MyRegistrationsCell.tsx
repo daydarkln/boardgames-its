@@ -8,8 +8,11 @@ import type {
   CellSuccessProps,
   TypedDocumentNode,
 } from '@redwoodjs/web'
+import { useMutation } from '@redwoodjs/web'
+import { toast } from '@redwoodjs/web/toast'
 
 import Badge from 'src/components/Badge/Badge'
+import Button from 'src/components/Button/Button'
 import EmptyState from 'src/components/EmptyState/EmptyState'
 import GameSessionCard from 'src/components/GameSessionCard/GameSessionCard'
 import { formatStatus } from 'src/lib/categories'
@@ -46,6 +49,15 @@ export const QUERY: TypedDocumentNode<
   }
 `
 
+const CANCEL_REGISTRATION = gql`
+  mutation CancelMyRegistrationMutation($id: Int!) {
+    cancelGameSessionRegistration(id: $id) {
+      id
+      status
+    }
+  }
+`
+
 export const Loading = () => (
   <div className="bg-white/8 h-72 animate-pulse rounded-lg" />
 )
@@ -64,6 +76,12 @@ export const Failure = ({
 export const Success = ({
   myRegistrations,
 }: CellSuccessProps<MyRegistrationsQuery, MyRegistrationsQueryVariables>) => {
+  const [cancelRegistration, { loading }] = useMutation(CANCEL_REGISTRATION, {
+    refetchQueries: ['MyRegistrationsQuery'],
+    onCompleted: () => toast.success('Запись отменена'),
+    onError: (error) => toast.error(error.message),
+  })
+
   return (
     <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
       {myRegistrations.map((registration) => (
@@ -72,6 +90,20 @@ export const Success = ({
             <Badge tone="green">{formatStatus(registration.status)}</Badge>
           </div>
           <GameSessionCard game={registration.gameSession} />
+          <div className="mt-3">
+            <Button
+              variant="danger"
+              size="sm"
+              disabled={loading}
+              onClick={() =>
+                cancelRegistration({
+                  variables: { id: registration.gameSession.id },
+                })
+              }
+            >
+              Отменить запись
+            </Button>
+          </div>
         </div>
       ))}
     </div>

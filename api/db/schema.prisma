@@ -27,11 +27,9 @@ enum GameCategory {
 
 enum GameSessionStatus {
   DRAFT
-  OPEN
-  FULL
+  PUBLISHED
   CANCELLED
-  COMPLETED
-  HIDDEN
+  FINISHED
 }
 
 enum RegistrationStatus {
@@ -42,15 +40,14 @@ enum RegistrationStatus {
 }
 
 enum ExperienceLevel {
-  BEGINNER
-  CASUAL
-  EXPERIENCED
-  EXPERT
   ANY
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
 }
 
 enum PlayerPostStatus {
-  OPEN
+  ACTIVE
   CLOSED
   HIDDEN
 }
@@ -113,10 +110,13 @@ model GameSession {
   endTime          String?
   maxPlayers       Int
   minPlayers       Int               @default(1)
-  status           GameSessionStatus @default(OPEN)
+  status           GameSessionStatus @default(PUBLISHED)
   experienceLevel  ExperienceLevel   @default(ANY)
+  isOnline         Boolean           @default(false)
   isPrivate        Boolean           @default(false)
   requiresApproval Boolean           @default(false)
+  locationDetails  String?
+  connectionInfo   String?
   imageUrl         String?
   tags             String[]
   createdAt        DateTime          @default(now())
@@ -164,7 +164,7 @@ model PlayerPost {
   neededPlayers   Int              @default(1)
   currentPlayers  Int              @default(1)
   tags            String[]
-  status          PlayerPostStatus @default(OPEN)
+  status          PlayerPostStatus @default(ACTIVE)
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
 

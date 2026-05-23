@@ -1,17 +1,21 @@
-// Define your own mock data here:
+const playerPost = (id: number) => ({
+  __typename: 'PlayerPost' as const,
+  id,
+  title: `Объявление ${id}`,
+  description: 'Описание объявления',
+  category: 'BOARD_GAMES' as const,
+  district: 'Тверская',
+  isOnline: false,
+  experienceLevel: 'ANY' as const,
+  neededPlayers: 4,
+  currentPlayers: 2,
+  tags: ['евро'],
+  author: {
+    __typename: 'User' as const,
+    name: 'Мария',
+  },
+})
+
 export const standard = (/* vars, { ctx, req } */) => ({
-  latestPlayerPosts: [
-    {
-      __typename: 'LatestPlayerPosts' as const,
-      id: 42,
-    },
-    {
-      __typename: 'LatestPlayerPosts' as const,
-      id: 43,
-    },
-    {
-      __typename: 'LatestPlayerPosts' as const,
-      id: 44,
-    },
-  ],
+  playerPosts: [playerPost(42), playerPost(43), playerPost(44)],
 })

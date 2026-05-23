@@ -19,6 +19,39 @@ const approvedCount = (
   registrations?.filter((registration) => registration.status === 'APPROVED')
     .length ?? 0
 
+const activeRegistrationCount = (
+  registrations: Array<{ status?: string | null }> | null | undefined
+) =>
+  registrations?.filter((registration) =>
+    ['PENDING', 'APPROVED'].includes(registration.status ?? '')
+  ).length ?? 0
+
+const isPastSession = (date: Date | string) =>
+  new Date(date).getTime() < Date.now()
+
+const canViewPrivateSession = (
+  session: {
+    organizerId: number
+    registrations?: Array<{ userId?: number | null; status?: string | null }>
+  } | null
+) => {
+  if (!session || !context.currentUser) {
+    return false
+  }
+
+  if (isAdmin() || session.organizerId === context.currentUser.id) {
+    return true
+  }
+
+  return (
+    session.registrations?.some(
+      (registration) =>
+        registration.userId === context.currentUser.id &&
+        ['PENDING', 'APPROVED'].includes(registration.status ?? '')
+    ) ?? false
+  )
+}
+
 const assertCanManageGame = async (id: number) => {
   requireAuth()
 
@@ -42,6 +75,10 @@ const validateGameInput = (input: {
   startTime?: string | null
   maxPlayers?: number | null
   minPlayers?: number | null
+  isOnline?: boolean | null
+  venueId?: number | null
+  locationDetails?: string | null
+  connectionInfo?: string | null
 }) => {
   if ('title' in input && !input.title?.trim()) {
     throw new ValidationError('Название игры обязательно')
@@ -64,22 +101,48 @@ const validateGameInput = (input: {
   }
 
   if (
-    input.minPlayers &&
-    input.maxPlayers &&
+    input.minPlayers !== undefined &&
+    input.minPlayers !== null &&
+    input.maxPlayers !== undefined &&
+    input.maxPlayers !== null &&
     Number(input.minPlayers) > Number(input.maxPlayers)
   ) {
     throw new ValidationError('Минимум игроков не может быть больше максимума')
+  }
+
+  if (input.isOnline === true && !input.connectionInfo?.trim()) {
+    throw new ValidationError('Для онлайн-игры нужны детали подключения')
+  }
+
+  if (
+    input.isOnline === false &&
+    !input.venueId &&
+    !input.locationDetails?.trim()
+  ) {
+    throw new ValidationError('Для офлайн-игры нужна площадка или адрес')
   }
 }
 
 export const gameSessions: QueryResolvers['gameSessions'] = async ({
   input,
 }) => {
+  const showAllForAdmin = isAdmin()
+  const dateFilter =
+    input?.dateFrom || input?.dateTo || !showAllForAdmin
+      ? {
+          date: {
+            ...(!showAllForAdmin ? { gte: new Date() } : {}),
+            ...(input?.dateFrom ? { gte: input.dateFrom } : {}),
+            ...(input?.dateTo ? { lte: input.dateTo } : {}),
+          },
+        }
+      : {}
+
   const where = {
-    ...(isAdmin()
+    ...(showAllForAdmin
       ? {}
       : {
-          status: { not: 'HIDDEN' as const },
+          status: 'PUBLISHED' as const,
           isPrivate: false,
         }),
     ...(input?.category ? { category: input.category } : {}),
@@ -97,14 +160,7 @@ export const gameSessions: QueryResolvers['gameSessions'] = async ({
           },
         }
       : {}),
-    ...(input?.dateFrom || input?.dateTo
-      ? {
-          date: {
-            ...(input.dateFrom ? { gte: input.dateFrom } : {}),
-            ...(input.dateTo ? { lte: input.dateTo } : {}),
-          },
-        }
-      : {}),
+    ...dateFilter,
   }
 
   const sessions = await db.gameSession.findMany({
@@ -120,7 +176,8 @@ export const gameSessions: QueryResolvers['gameSessions'] = async ({
 
   if (input?.hasSeats) {
     return sessions.filter(
-      (session) => approvedCount(session.registrations) < session.maxPlayers
+      (session) =>
+        activeRegistrationCount(session.registrations) < session.maxPlayers
     )
   }
 
@@ -144,7 +201,9 @@ export const gameSession: QueryResolvers['gameSession'] = async ({ id }) => {
 
   if (
     !isAdmin() &&
-    session.status === 'HIDDEN' &&
+    (session.status !== 'PUBLISHED' ||
+      isPastSession(session.date) ||
+      (session.isPrivate && !canViewPrivateSession(session))) &&
     session.organizerId !== context.currentUser?.id
   ) {
     return null
@@ -182,7 +241,7 @@ export const createGameSession: MutationResolvers['createGameSession'] = ({
       ...input,
       organizerId,
       tags: input.tags ?? [],
-      status: input.status ?? 'OPEN',
+      status: input.status ?? 'PUBLISHED',
       experienceLevel: input.experienceLevel ?? 'ANY',
       minPlayers: input.minPlayers ?? 1,
     },
@@ -228,8 +287,18 @@ export const registerForGameSession: MutationResolvers['registerForGameSession']
       throw new ValidationError('Игра не найдена')
     }
 
-    if (session.status === 'CANCELLED' || session.status === 'HIDDEN') {
+    if (session.status !== 'PUBLISHED') {
       throw new ValidationError('На эту игру нельзя записаться')
+    }
+
+    if (session.isPrivate && !canViewPrivateSession(session)) {
+      throw new ForbiddenError(
+        'На приватную игру нельзя записаться без доступа'
+      )
+    }
+
+    if (isPastSession(session.date)) {
+      throw new ValidationError('Нельзя записаться на прошедшую игру')
     }
 
     const existing = await db.gameRegistration.findUnique({
@@ -245,7 +314,7 @@ export const registerForGameSession: MutationResolvers['registerForGameSession']
       throw new ValidationError('Вы уже записаны на эту игру')
     }
 
-    if (approvedCount(session.registrations) >= session.maxPlayers) {
+    if (activeRegistrationCount(session.registrations) >= session.maxPlayers) {
       throw new ValidationError('Свободных мест нет')
     }
 
@@ -263,14 +332,6 @@ export const registerForGameSession: MutationResolvers['registerForGameSession']
             gameSessionId: id,
           },
         })
-
-    const activeCount = approvedCount([...session.registrations, registration])
-    if (activeCount >= session.maxPlayers) {
-      await db.gameSession.update({
-        where: { id },
-        data: { status: 'FULL' },
-      })
-    }
 
     return registration
   }
@@ -297,12 +358,61 @@ export const cancelGameSessionRegistration: MutationResolvers['cancelGameSession
       data: { status: 'CANCELLED' },
     })
 
-    await db.gameSession.update({
-      where: { id },
-      data: { status: 'OPEN' },
-    })
-
     return updated
+  }
+
+const assertCanManageRegistration = async (id: number) => {
+  requireAuth()
+
+  const registration = await db.gameRegistration.findUnique({
+    where: { id },
+    include: {
+      gameSession: {
+        include: { registrations: true },
+      },
+    },
+  })
+
+  if (!registration) {
+    throw new ValidationError('Запись не найдена')
+  }
+
+  if (
+    !isAdmin() &&
+    registration.gameSession.organizerId !== context.currentUser.id
+  ) {
+    throw new ForbiddenError('Можно управлять только участниками своей игры')
+  }
+
+  return registration
+}
+
+export const approveGameRegistration: MutationResolvers['approveGameRegistration'] =
+  async ({ id }) => {
+    const registration = await assertCanManageRegistration(id)
+
+    if (
+      approvedCount(registration.gameSession.registrations) >=
+        registration.gameSession.maxPlayers &&
+      registration.status !== 'APPROVED'
+    ) {
+      throw new ValidationError('Свободных мест нет')
+    }
+
+    return db.gameRegistration.update({
+      where: { id },
+      data: { status: 'APPROVED' },
+    })
+  }
+
+export const declineGameRegistration: MutationResolvers['declineGameRegistration'] =
+  async ({ id }) => {
+    await assertCanManageRegistration(id)
+
+    return db.gameRegistration.update({
+      where: { id },
+      data: { status: 'DECLINED' },
+    })
   }
 
 export const addFavoriteGameSession: MutationResolvers['addFavoriteGameSession'] =

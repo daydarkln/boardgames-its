@@ -8,18 +8,19 @@ import {
   FieldError,
   Submit,
 } from '@redwoodjs/forms'
-import { Link, navigate, routes } from '@redwoodjs/router'
+import { Link, navigate } from '@redwoodjs/router'
 import { Metadata } from '@redwoodjs/web'
 import { toast, Toaster } from '@redwoodjs/web/toast'
 
 import { useAuth } from 'src/auth'
+import { routePath } from 'src/lib/routes'
 
 const SignupPage = () => {
   const { isAuthenticated, signUp } = useAuth()
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate(routes.home())
+      navigate(routePath('home', '/'))
     }
   }, [isAuthenticated])
 
@@ -33,6 +34,7 @@ const SignupPage = () => {
     const response = await signUp({
       username: data.email,
       password: data.password,
+      name: data.name,
     })
 
     if (response.message) {
@@ -41,25 +43,39 @@ const SignupPage = () => {
       toast.error(response.error)
     } else {
       // user is signed in automatically
-      toast.success('Welcome!')
+      toast.success('Аккаунт создан')
     }
   }
 
   return (
     <>
-      <Metadata title="Signup" />
+      <Metadata title="Регистрация" />
 
       <main className="rw-main">
         <Toaster toastOptions={{ className: 'rw-toast', duration: 6000 }} />
         <div className="rw-scaffold rw-login-container">
           <div className="rw-segment">
             <header className="rw-segment-header">
-              <h2 className="rw-heading rw-heading-secondary">Signup</h2>
+              <h2 className="rw-heading rw-heading-secondary">Регистрация</h2>
             </header>
 
             <div className="rw-segment-main">
               <div className="rw-form-wrapper">
                 <Form onSubmit={onSubmit} className="rw-form-wrapper">
+                  <Label
+                    name="name"
+                    className="rw-label"
+                    errorClassName="rw-label rw-label-error"
+                  >
+                    Имя
+                  </Label>
+                  <TextField
+                    name="name"
+                    className="rw-input"
+                    errorClassName="rw-input rw-input-error"
+                  />
+                  <FieldError name="name" className="rw-field-error" />
+
                   <Label
                     name="email"
                     className="rw-label"
@@ -75,7 +91,11 @@ const SignupPage = () => {
                     validation={{
                       required: {
                         value: true,
-                        message: 'Email is required',
+                        message: 'Email обязателен',
+                      },
+                      pattern: {
+                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                        message: 'Введите корректный email',
                       },
                     }}
                   />
@@ -86,7 +106,7 @@ const SignupPage = () => {
                     className="rw-label"
                     errorClassName="rw-label rw-label-error"
                   >
-                    Password
+                    Пароль
                   </Label>
                   <PasswordField
                     name="password"
@@ -96,7 +116,7 @@ const SignupPage = () => {
                     validation={{
                       required: {
                         value: true,
-                        message: 'Password is required',
+                        message: 'Пароль обязателен',
                       },
                     }}
                   />
@@ -104,7 +124,7 @@ const SignupPage = () => {
 
                   <div className="rw-button-group">
                     <Submit className="rw-button rw-button-blue">
-                      Sign Up
+                      Зарегистрироваться
                     </Submit>
                   </div>
                 </Form>
@@ -112,9 +132,9 @@ const SignupPage = () => {
             </div>
           </div>
           <div className="rw-login-link">
-            <span>Already have an account?</span>{' '}
-            <Link to={routes.login()} className="rw-link">
-              Log in!
+            <span>Уже есть аккаунт?</span>{' '}
+            <Link to={routePath('login', '/login')} className="rw-link">
+              Войти
             </Link>
           </div>
         </div>

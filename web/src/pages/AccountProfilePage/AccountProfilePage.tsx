@@ -114,9 +114,8 @@ const AccountProfilePage = () => {
               >
                 <option value="ANY">Любой опыт</option>
                 <option value="BEGINNER">Новичок</option>
-                <option value="CASUAL">Любитель</option>
-                <option value="EXPERIENCED">Опытный</option>
-                <option value="EXPERT">Эксперт</option>
+                <option value="INTERMEDIATE">Средний</option>
+                <option value="ADVANCED">Продвинутый</option>
               </SelectField>
             </div>
           </div>
@@ -127,6 +126,7 @@ const AccountProfilePage = () => {
             />
             <TextField
               name="favoriteGamesText"
+              defaultValue={currentUser?.favoriteGamesText ?? ''}
               className="rw-input"
               placeholder="Brass, D&D 5e, Blood on the Clocktower"
             />

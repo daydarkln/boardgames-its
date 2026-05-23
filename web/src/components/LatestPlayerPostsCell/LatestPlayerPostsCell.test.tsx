@@ -36,7 +36,7 @@ describe('LatestPlayerPostsCell', () => {
 
   it('renders Success successfully', async () => {
     expect(() => {
-      render(<Success latestPlayerPosts={standard().latestPlayerPosts} />)
+      render(<Success playerPosts={standard().playerPosts} />)
     }).not.toThrow()
   })
 })

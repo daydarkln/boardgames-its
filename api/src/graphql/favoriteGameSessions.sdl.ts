@@ -30,7 +30,7 @@ export const schema = gql`
     updateFavoriteGameSession(
       id: Int!
       input: UpdateFavoriteGameSessionInput!
-    ): FavoriteGameSession! @requireAuth
+    ): FavoriteGameSession! @requireAuth(roles: "admin")
     deleteFavoriteGameSession(id: Int!): FavoriteGameSession! @requireAuth
   }
 `

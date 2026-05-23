@@ -18,7 +18,7 @@ export const schema = gql`
   }
 
   type Query {
-    gameRegistrations: [GameRegistration!]! @requireAuth
+    gameRegistrations: [GameRegistration!]! @requireAuth(roles: "admin")
     gameRegistration(id: Int!): GameRegistration @requireAuth
     myRegistrations: [GameRegistration!]! @requireAuth
   }
@@ -38,11 +38,12 @@ export const schema = gql`
   type Mutation {
     createGameRegistration(
       input: CreateGameRegistrationInput!
-    ): GameRegistration! @requireAuth
+    ): GameRegistration! @requireAuth(roles: "admin")
     updateGameRegistration(
       id: Int!
       input: UpdateGameRegistrationInput!
-    ): GameRegistration! @requireAuth
-    deleteGameRegistration(id: Int!): GameRegistration! @requireAuth
+    ): GameRegistration! @requireAuth(roles: "admin")
+    deleteGameRegistration(id: Int!): GameRegistration!
+      @requireAuth(roles: "admin")
   }
 `

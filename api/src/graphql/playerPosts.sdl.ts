@@ -25,15 +25,14 @@ export const schema = gql`
   }
 
   enum ExperienceLevel {
-    BEGINNER
-    CASUAL
-    EXPERIENCED
-    EXPERT
     ANY
+    BEGINNER
+    INTERMEDIATE
+    ADVANCED
   }
 
   enum PlayerPostStatus {
-    OPEN
+    ACTIVE
     CLOSED
     HIDDEN
   }

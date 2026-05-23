@@ -1,10 +1,9 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
-import { routes } from '@redwoodjs/router'
-
 import Button from 'src/components/Button/Button'
 import { heroSlides } from 'src/lib/categories'
 import { cn } from 'src/lib/cn'
+import { routePath } from 'src/lib/routes'
 import { useUiStore } from 'src/stores/uiStore'
 
 const HeroSkewSlider = () => {
@@ -106,9 +105,14 @@ const HeroSkewSlider = () => {
                         ))}
                       </ul>
                       <div className="mt-6 flex flex-wrap gap-3">
-                        <Button to={routes.games()}>Найти игру</Button>
+                        <Button to={routePath('games', '/games')}>
+                          Найти игру
+                        </Button>
                         <Button
-                          to={routes.accountCreateGame()}
+                          to={routePath(
+                            'accountCreateGame',
+                            '/account/create-game'
+                          )}
                           variant="secondary"
                         >
                           Создать стол

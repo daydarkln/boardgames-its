@@ -27,8 +27,11 @@ export const QUERY: TypedDocumentNode<
       minPlayers
       status
       experienceLevel
+      isOnline
       isPrivate
       requiresApproval
+      locationDetails
+      connectionInfo
       imageUrl
       tags
       createdAt

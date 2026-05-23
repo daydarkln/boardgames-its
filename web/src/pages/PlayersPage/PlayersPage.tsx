@@ -1,10 +1,10 @@
-import { routes } from '@redwoodjs/router'
 import { Metadata } from '@redwoodjs/web'
 
 import { useAuth } from 'src/auth'
 import Button from 'src/components/Button/Button'
 import LatestPlayerPostsCell from 'src/components/LatestPlayerPostsCell'
 import PageHeader from 'src/components/PageHeader/PageHeader'
+import { routePath } from 'src/lib/routes'
 
 const PlayersPage = () => {
   const { isAuthenticated } = useAuth()
@@ -20,7 +20,11 @@ const PlayersPage = () => {
           description="Объявления для поиска партии, группы или недостающих игроков."
           actions={
             <Button
-              to={isAuthenticated ? routes.accountCreateGame() : routes.login()}
+              to={
+                isAuthenticated
+                  ? routePath('accountCreateGame', '/account/create-game')
+                  : routePath('login', '/login')
+              }
             >
               Создать игру
             </Button>

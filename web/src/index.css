@@ -1,0 +1,39 @@
+/**
+ * START --- SETUP TAILWINDCSS EDIT
+ *
+ * `yarn rw setup ui tailwindcss` placed these directives here
+ * to inject Tailwind's styles into your CSS.
+ * For more information, see: https://tailwindcss.com/docs/installation
+ */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/**
+ * END --- SETUP TAILWINDCSS EDIT
+ */
+
+@layer base {
+  html {
+    background: #020617;
+  }
+
+  body {
+    min-height: 100vh;
+    background:
+      radial-gradient(circle at 78% 12%, rgba(124, 58, 237, 0.26), transparent 26rem),
+      radial-gradient(circle at 18% 8%, rgba(249, 115, 22, 0.16), transparent 20rem),
+      linear-gradient(180deg, #020617 0%, #070a13 48%, #020617 100%);
+    color: #e2e8f0;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+@layer utilities {
+  .clip-skew {
+    clip-path: polygon(8% 0, 100% 0, 92% 100%, 0 100%);
+  }
+}

@@ -1,0 +1,190 @@
+// Don't forget to tell Prisma about your edits to this file using
+// `yarn rw prisma migrate dev` or `yarn rw prisma db push`.
+// `migrate` is like committing while `push` is for prototyping.
+// Read more about both here:
+// https://www.prisma.io/docs/orm/prisma-migrate
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = "native"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum GameCategory {
+  BOARD_GAMES
+  TTRPG
+  MAFIA
+}
+
+enum GameSessionStatus {
+  DRAFT
+  OPEN
+  FULL
+  CANCELLED
+  COMPLETED
+  HIDDEN
+}
+
+enum RegistrationStatus {
+  PENDING
+  APPROVED
+  DECLINED
+  CANCELLED
+}
+
+enum ExperienceLevel {
+  BEGINNER
+  CASUAL
+  EXPERIENCED
+  EXPERT
+  ANY
+}
+
+enum PlayerPostStatus {
+  OPEN
+  CLOSED
+  HIDDEN
+}
+
+model User {
+  id                  Int       @id @default(autoincrement())
+  email               String    @unique
+  hashedPassword      String
+  salt                String
+  resetToken          String?
+  resetTokenExpiresAt DateTime?
+
+  name               String?
+  avatarUrl          String?
+  city               String          @default("Москва")
+  district           String?
+  bio                String?
+  favoriteDirections GameCategory[]
+  favoriteGamesText  String?
+  experienceLevel    ExperienceLevel @default(ANY)
+  role               Role            @default(USER)
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+
+  createdGameSessions GameSession[]         @relation("GameSessionOrganizer")
+  gameRegistrations   GameRegistration[]
+  favoriteGames       FavoriteGameSession[]
+  playerPosts         PlayerPost[]
+}
+
+model Venue {
+  id                  Int      @id @default(autoincrement())
+  name                String
+  description         String
+  detailedDescription String?
+  address             String
+  district            String?
+  city                String   @default("Москва")
+  websiteUrl          String?
+  phone               String?
+  imageUrl            String?
+  rating              Float    @default(0)
+  latitude            Float?
+  longitude           Float?
+  amenities           String[]
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  gameSessions GameSession[]
+}
+
+model GameSession {
+  id               Int               @id @default(autoincrement())
+  title            String
+  description      String
+  category         GameCategory
+  gameSystem       String?
+  date             DateTime
+  startTime        String
+  endTime          String?
+  maxPlayers       Int
+  minPlayers       Int               @default(1)
+  status           GameSessionStatus @default(OPEN)
+  experienceLevel  ExperienceLevel   @default(ANY)
+  isPrivate        Boolean           @default(false)
+  requiresApproval Boolean           @default(false)
+  imageUrl         String?
+  tags             String[]
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  organizerId Int
+  organizer   User   @relation("GameSessionOrganizer", fields: [organizerId], references: [id])
+  venueId     Int?
+  venue       Venue? @relation(fields: [venueId], references: [id])
+
+  registrations GameRegistration[]
+  favorites     FavoriteGameSession[]
+
+  @@index([category])
+  @@index([date])
+  @@index([status])
+  @@index([organizerId])
+  @@index([venueId])
+}
+
+model GameRegistration {
+  id        Int                @id @default(autoincrement())
+  status    RegistrationStatus @default(APPROVED)
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+
+  userId        Int
+  user          User        @relation(fields: [userId], references: [id])
+  gameSessionId Int
+  gameSession   GameSession @relation(fields: [gameSessionId], references: [id])
+
+  @@unique([userId, gameSessionId])
+  @@index([gameSessionId])
+}
+
+model PlayerPost {
+  id              Int              @id @default(autoincrement())
+  title           String
+  description     String
+  category        GameCategory
+  city            String           @default("Москва")
+  district        String?
+  isOnline        Boolean          @default(false)
+  experienceLevel ExperienceLevel  @default(ANY)
+  neededPlayers   Int              @default(1)
+  currentPlayers  Int              @default(1)
+  tags            String[]
+  status          PlayerPostStatus @default(OPEN)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  authorId Int
+  author   User @relation(fields: [authorId], references: [id])
+
+  @@index([category])
+  @@index([status])
+  @@index([authorId])
+}
+
+model FavoriteGameSession {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  userId        Int
+  user          User        @relation(fields: [userId], references: [id])
+  gameSessionId Int
+  gameSession   GameSession @relation(fields: [gameSessionId], references: [id])
+
+  @@unique([userId, gameSessionId])
+  @@index([gameSessionId])
+}

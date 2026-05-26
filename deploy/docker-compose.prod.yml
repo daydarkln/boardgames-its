@@ -1,0 +1,47 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    env_file:
+      - ${ENV_FILE:-/opt/boardgames-its/shared/env/app.env}
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - boardgames-its-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\"",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  app:
+    image: ghcr.io/daydarkln/boardgames-its:${IMAGE_TAG:?IMAGE_TAG is required}
+    container_name: boardgames-its-app
+    restart: unless-stopped
+    env_file:
+      - ${ENV_FILE:-/opt/boardgames-its/shared/env/app.env}
+    environment:
+      NODE_ENV: production
+    ports:
+      - "127.0.0.1:${WEB_PORT:-8910}:8910"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:8910/.redwood/functions/health').then((response) => process.exit(response.ok ? 0 : 1)).catch(() => process.exit(1))",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+volumes:
+  boardgames-its-postgres:

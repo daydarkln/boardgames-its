@@ -72,7 +72,7 @@ export const QUERY: TypedDocumentNode<
 `
 
 export const Loading = () => (
-  <div className="bg-white/8 h-96 animate-pulse rounded-lg" />
+  <div className="glass-panel h-96 animate-pulse rounded-lg" />
 )
 
 export const Empty = () => <EmptyState title="Игра не найдена" />
@@ -94,71 +94,90 @@ export const Success = ({
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
-      <article className="rounded-xl border border-white/10 bg-slate-950/70 p-6">
-        <div className="flex flex-wrap gap-2">
-          <Badge tone="violet">{formatCategory(gameSession.category)}</Badge>
-          <Badge tone="slate">{formatStatus(gameSession.status)}</Badge>
-          <Badge tone="blue">
-            {formatExperience(gameSession.experienceLevel)}
-          </Badge>
+      <article className="glass-panel overflow-hidden rounded-xl">
+        <div
+          className="relative min-h-[320px] bg-cover bg-center"
+          style={{
+            backgroundImage:
+              gameSession.imageUrl ||
+              'linear-gradient(135deg, rgba(124,58,237,.65), rgba(244,63,94,.35)), radial-gradient(circle at 70% 20%, rgba(255,255,255,.22), transparent 28%)',
+          }}
+        >
+          <div className="from-black/92 via-black/48 to-black/18 absolute inset-0 bg-gradient-to-t" />
+          <div className="relative flex min-h-[320px] flex-col justify-end p-6">
+            <div className="flex flex-wrap gap-2">
+              <Badge tone="violet">
+                {formatCategory(gameSession.category)}
+              </Badge>
+              <Badge tone="slate">{formatStatus(gameSession.status)}</Badge>
+              <Badge tone="blue">
+                {formatExperience(gameSession.experienceLevel)}
+              </Badge>
+            </div>
+            <h1 className="mt-5 max-w-3xl font-heading text-4xl font-medium leading-[0.96] text-white md:text-5xl">
+              {gameSession.title}
+            </h1>
+            <p className="mt-4 max-w-2xl text-sm font-semibold leading-6 text-slate-300">
+              {gameSession.gameSystem ?? 'Игровая встреча'}
+            </p>
+          </div>
         </div>
-        <h1 className="mt-5 text-4xl font-black text-white">
-          {gameSession.title}
-        </h1>
-        <p className="mt-4 whitespace-pre-line text-base leading-7 text-slate-300">
-          {gameSession.description}
-        </p>
-        <div className="mt-6 grid gap-3 rounded-lg border border-white/10 bg-white/[0.04] p-4 text-sm text-slate-300 sm:grid-cols-2">
-          <span>
-            Дата: {new Date(gameSession.date).toLocaleDateString('ru-RU')}
-          </span>
-          <span>
-            Время: {gameSession.startTime}
-            {gameSession.endTime ? ` - ${gameSession.endTime}` : ''}
-          </span>
-          <span>
-            Место:{' '}
-            {gameSession.isOnline
-              ? 'Онлайн'
-              : (gameSession.venue?.name ??
-                gameSession.locationDetails ??
-                'Уточняется')}
-          </span>
-          {gameSession.isOnline && (
+        <div className="p-6">
+          <p className="whitespace-pre-line text-base leading-7 text-slate-300">
+            {gameSession.description}
+          </p>
+          <div className="mt-6 grid gap-3 rounded-lg border border-white/10 bg-slate-950/45 p-4 text-sm font-semibold text-slate-300 sm:grid-cols-2">
             <span>
-              Подключение:{' '}
-              {gameSession.connectionInfo ?? 'Организатор сообщит детали'}
+              Дата: {new Date(gameSession.date).toLocaleDateString('ru-RU')}
             </span>
-          )}
-          <span>
-            Организатор:{' '}
-            {gameSession.organizer.name ?? gameSession.organizer.email}
-          </span>
-        </div>
-        <div className="mt-6">
-          <h2 className="flex items-center gap-2 text-xl font-black text-white">
-            <Users className="h-5 w-5 text-emerald-300" />
-            Участники
-          </h2>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {approved.length > 0 ? (
-              approved.map((registration) => (
-                <Badge key={registration.id} tone="green">
-                  {registration.user.name ?? `Игрок #${registration.user.id}`}
-                </Badge>
-              ))
-            ) : (
-              <span className="text-sm text-slate-500">
-                Пока никто не записался.
+            <span>
+              Время: {gameSession.startTime}
+              {gameSession.endTime ? ` - ${gameSession.endTime}` : ''}
+            </span>
+            <span>
+              Место:{' '}
+              {gameSession.isOnline
+                ? 'Онлайн'
+                : (gameSession.venue?.name ??
+                  gameSession.locationDetails ??
+                  'Уточняется')}
+            </span>
+            {gameSession.isOnline && (
+              <span>
+                Подключение:{' '}
+                {gameSession.connectionInfo ?? 'Организатор сообщит детали'}
               </span>
             )}
+            <span>
+              Организатор:{' '}
+              {gameSession.organizer.name ?? gameSession.organizer.email}
+            </span>
+          </div>
+          <div className="mt-6">
+            <h2 className="flex items-center gap-2 font-heading text-xl font-medium text-white">
+              <Users className="h-5 w-5 text-emerald-300" />
+              Участники
+            </h2>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {approved.length > 0 ? (
+                approved.map((registration) => (
+                  <Badge key={registration.id} tone="green">
+                    {registration.user.name ?? `Игрок #${registration.user.id}`}
+                  </Badge>
+                ))
+              ) : (
+                <span className="text-sm text-slate-500">
+                  Пока никто не записался.
+                </span>
+              )}
+            </div>
           </div>
         </div>
       </article>
       <aside className="grid content-start gap-4">
         <GameSessionCard game={gameSession} />
-        <div className="rounded-xl border border-white/10 bg-slate-950/70 p-4">
-          <h2 className="mb-4 flex items-center gap-2 text-lg font-black text-white">
+        <div className="glass-panel rounded-xl p-4">
+          <h2 className="mb-4 flex items-center gap-2 font-heading text-lg font-medium text-white">
             <Heart className="h-5 w-5 text-pink-300" />
             Действия
           </h2>

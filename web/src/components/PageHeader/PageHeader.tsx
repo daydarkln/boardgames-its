@@ -14,18 +14,18 @@ const PageHeader = ({
   actions,
 }: PageHeaderProps) => {
   return (
-    <div className="flex flex-col gap-5 pb-8 pt-10 sm:flex-row sm:items-end sm:justify-between">
+    <div className="flex flex-col gap-5 pb-6 pt-8 sm:flex-row sm:items-end sm:justify-between">
       <div>
         {eyebrow && (
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-orange-300">
+          <p className="text-xs font-black uppercase tracking-[0.18em] text-orange-300">
             {eyebrow}
           </p>
         )}
-        <h1 className="mt-2 max-w-3xl text-3xl font-black text-white sm:text-5xl">
+        <h1 className="mt-2 max-w-3xl text-balance font-heading text-3xl font-medium leading-[0.96] text-white sm:text-5xl">
           {title}
         </h1>
         {description && (
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-400 sm:text-base">
+          <p className="mt-3 max-w-2xl text-sm font-medium leading-6 text-slate-400 sm:text-base">
             {description}
           </p>
         )}

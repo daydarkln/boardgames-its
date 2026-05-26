@@ -16,9 +16,9 @@ const Card = ({
   return (
     <div
       className={cn(
-        'bg-slate-950/68 rounded-lg border border-white/10 shadow-xl shadow-black/20 backdrop-blur',
+        'glass-panel glow-card rounded-lg',
         interactive &&
-          'transition hover:-translate-y-0.5 hover:border-violet-300/30 hover:bg-slate-900/80',
+          'transition duration-200 hover:-translate-y-0.5 hover:border-violet-300/35 hover:bg-slate-900/80 hover:shadow-violet-950/25',
         className
       )}
       {...props}

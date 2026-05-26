@@ -7,24 +7,26 @@ import { cn } from 'src/lib/cn'
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children?: ReactNode
   to?: string
-  variant?: 'primary' | 'secondary' | 'ghost' | 'danger'
+  variant?: 'primary' | 'secondary' | 'ghost' | 'danger' | 'dark'
   size?: 'sm' | 'md' | 'lg'
 }
 
 const variants = {
   primary:
-    'bg-gradient-to-r from-orange-500 to-pink-600 text-white shadow-lg shadow-pink-950/30 hover:from-orange-400 hover:to-pink-500',
+    'border border-orange-300/20 bg-gradient-to-r from-orange-500 to-pink-600 text-white shadow-lg shadow-pink-950/35 hover:from-orange-400 hover:to-pink-500',
   secondary:
-    'border border-white/12 bg-white/8 text-white hover:border-violet-300/50 hover:bg-white/12',
-  ghost: 'text-slate-200 hover:bg-white/8 hover:text-white',
+    'border border-white/12 bg-white/8 text-white shadow-sm shadow-black/20 hover:border-violet-300/50 hover:bg-white/12',
+  ghost:
+    'text-slate-300 hover:bg-white/8 hover:text-white focus:ring-white/20',
   danger:
-    'border border-rose-400/40 bg-rose-500/12 text-rose-100 hover:bg-rose-500/20',
+    'border border-rose-400/40 bg-rose-500/12 text-rose-100 hover:bg-rose-500/20 focus:ring-rose-300/40',
+  dark: 'border border-white/10 bg-slate-950/70 text-slate-100 shadow-sm shadow-black/20 hover:border-white/20 hover:bg-slate-900',
 }
 
 const sizes = {
-  sm: 'h-9 px-3 text-xs',
-  md: 'h-11 px-5 text-sm',
-  lg: 'h-12 px-6 text-base',
+  sm: 'min-h-9 px-3 text-xs',
+  md: 'min-h-11 px-5 text-sm',
+  lg: 'min-h-12 px-6 text-base',
 }
 
 const Button = ({
@@ -37,7 +39,7 @@ const Button = ({
   ...props
 }: ButtonProps) => {
   const classes = cn(
-    'inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition focus:outline-none focus:ring-2 focus:ring-violet-300 disabled:cursor-not-allowed disabled:opacity-50',
+    'inline-flex items-center justify-center gap-2 rounded-lg font-bold leading-none transition focus:outline-none focus:ring-2 focus:ring-violet-300 disabled:cursor-not-allowed disabled:opacity-50',
     variants[variant],
     sizes[size],
     className

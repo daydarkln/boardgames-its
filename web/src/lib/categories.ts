@@ -47,8 +47,11 @@ export const heroSlides = [
       'Играй в клубах и кафе',
       'Новые друзья за столом',
     ],
-    image:
-      'linear-gradient(135deg, rgba(124,58,237,.78), rgba(14,165,233,.35)), radial-gradient(circle at 20% 20%, rgba(255,255,255,.28), transparent 30%)',
+    image: "url('/hero/boardgames.jpg')",
+    activeBackgroundPosition: '28% 54%',
+    inactiveBackgroundPosition: '34% 52%',
+    activeBackgroundSize: '145% auto',
+    inactiveBackgroundSize: '250% auto',
     icon: Dice5,
   },
   {
@@ -60,8 +63,11 @@ export const heroSlides = [
       'One-shot и кампании',
       'Игры для новичков',
     ],
-    image:
-      'linear-gradient(135deg, rgba(190,18,60,.75), rgba(88,28,135,.45)), radial-gradient(circle at 75% 15%, rgba(255,255,255,.25), transparent 28%)',
+    image: "url('/hero/ttrpg.jpg')",
+    activeBackgroundPosition: '8% 45%',
+    inactiveBackgroundPosition: '10% 42%',
+    activeBackgroundSize: '190% auto',
+    inactiveBackgroundSize: '310% auto',
     icon: Crown,
   },
   {
@@ -73,8 +79,11 @@ export const heroSlides = [
       'Вечера в клубах',
       'Команды и турниры',
     ],
-    image:
-      'linear-gradient(135deg, rgba(249,115,22,.72), rgba(20,20,24,.72)), radial-gradient(circle at 30% 30%, rgba(255,255,255,.18), transparent 28%)',
+    image: "url('/hero/ttrpg.jpg')",
+    activeBackgroundPosition: '82% 36%',
+    inactiveBackgroundPosition: '78% 24%',
+    activeBackgroundSize: '190% auto',
+    inactiveBackgroundSize: '300% auto',
     icon: Drama,
   },
   {
@@ -86,8 +95,11 @@ export const heroSlides = [
       'Находи игроков рядом',
       'Следи за афишей города',
     ],
-    image:
-      'linear-gradient(135deg, rgba(16,185,129,.62), rgba(15,23,42,.72)), radial-gradient(circle at 65% 15%, rgba(255,255,255,.2), transparent 28%)',
+    image: "url('/hero/mafia.jpg')",
+    activeBackgroundPosition: '64% 42%',
+    inactiveBackgroundPosition: '66% 34%',
+    activeBackgroundSize: '180% auto',
+    inactiveBackgroundSize: '280% auto',
     icon: Users,
   },
   {
@@ -95,8 +107,11 @@ export const heroSlides = [
     title: 'Турниры и лиги',
     subtitle: 'Соревнуйся, поднимайся в рейтинге и собирай команду.',
     bullets: ['Регулярные лиги', 'Рейтинги игроков', 'Городские финалы'],
-    image:
-      'linear-gradient(135deg, rgba(245,158,11,.72), rgba(88,28,135,.48)), radial-gradient(circle at 70% 20%, rgba(255,255,255,.22), transparent 30%)',
+    image: "url('/hero/community.jpg')",
+    activeBackgroundPosition: '40% 50%',
+    inactiveBackgroundPosition: '38% 34%',
+    activeBackgroundSize: '175% auto',
+    inactiveBackgroundSize: '275% auto',
     icon: Trophy,
   },
 ]

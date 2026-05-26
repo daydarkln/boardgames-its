@@ -25,7 +25,7 @@ const ScaffoldLayout = ({
   return (
     <AdminLayout>
       <header className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <h1 className="text-3xl font-black text-white">
+        <h1 className="font-heading text-3xl font-medium leading-none text-white">
           <Link to={routes[titleTo]()}>{title}</Link>
         </h1>
         <Button to={routes[buttonTo]()} size="sm">

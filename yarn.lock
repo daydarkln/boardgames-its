@@ -4445,6 +4445,76 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@primereact/core@npm:11.0.0-alpha.10":
+  version: 11.0.0-alpha.10
+  resolution: "@primereact/core@npm:11.0.0-alpha.10"
+  dependencies:
+    "@primereact/hooks": "npm:11.0.0-alpha.10"
+    "@primeuix/motion": "npm:^0.0.11"
+    "@primeuix/styled": "npm:^0.7.4"
+    "@primeuix/utils": "npm:^0.6.4"
+  peerDependencies:
+    react: ">=19.0.0"
+  checksum: 10c0/282a8756ef72bc522fb98d6553b61f067c541cd0da3dce4625d7fc8812dc43b794bfd191ae86e68fcfce2062c9f8a2fc5ec40094aaf9a96881dcc4a3a2cc6bf0
+  languageName: node
+  linkType: hard
+
+"@primereact/headless@npm:11.0.0-alpha.10":
+  version: 11.0.0-alpha.10
+  resolution: "@primereact/headless@npm:11.0.0-alpha.10"
+  dependencies:
+    "@primereact/core": "npm:11.0.0-alpha.10"
+    "@primereact/hooks": "npm:11.0.0-alpha.10"
+    "@primeuix/styled": "npm:^0.7.4"
+    "@primeuix/utils": "npm:^0.6.4"
+  checksum: 10c0/8c751f9849e4ee47bfbd6dbe57821fd0c8b846b6a7534a25ae2b342b5ea05ba545ec38a6529567811654ae6e23111957cdaff4c4f9127bf6859582b788464e8a
+  languageName: node
+  linkType: hard
+
+"@primereact/hooks@npm:11.0.0-alpha.10":
+  version: 11.0.0-alpha.10
+  resolution: "@primereact/hooks@npm:11.0.0-alpha.10"
+  dependencies:
+    "@primeuix/utils": "npm:^0.6.4"
+  checksum: 10c0/a7929a3d4c8e9ec2689f718f6866ec4b1947e59f33b34d0008ada6ea3ab71c08e9bd2da96ff37453a94594f9b1ab8b50a04cb46181d0f5f1b0a60f7b80e23f5f
+  languageName: node
+  linkType: hard
+
+"@primereact/types@npm:11.0.0-alpha.10":
+  version: 11.0.0-alpha.10
+  resolution: "@primereact/types@npm:11.0.0-alpha.10"
+  peerDependencies:
+    "@primeuix/motion": ^0.0.11
+    "@primeuix/styled": ^0.7.4
+  checksum: 10c0/b6aa49ef883670a449d9e950fff4e0db57dd5141a269b42d79a452315891553993cbd85d87223c56afce4fafc42dbf844b6fa5d3e0f08cef632929f4e1610435
+  languageName: node
+  linkType: hard
+
+"@primeuix/motion@npm:^0.0.11":
+  version: 0.0.11
+  resolution: "@primeuix/motion@npm:0.0.11"
+  dependencies:
+    "@primeuix/utils": "npm:^0.6.4"
+  checksum: 10c0/bdc5d9a04e11d93dde05dd510109ac88ff33d79ed01d1a987f3e10868741e9aa38711b9306be18c781200612bab7d55c4b8882feed01763f1fa66d2e35bdd804
+  languageName: node
+  linkType: hard
+
+"@primeuix/styled@npm:^0.7.4":
+  version: 0.7.4
+  resolution: "@primeuix/styled@npm:0.7.4"
+  dependencies:
+    "@primeuix/utils": "npm:^0.6.1"
+  checksum: 10c0/e1ed3e6c4a36bd5a6722b8fcd3e79d9fd60a36f174e5d822fd2fa0ecace49508c548228462ff8033961e1aa1bece6ec87c04879097c3691044314629120e968c
+  languageName: node
+  linkType: hard
+
+"@primeuix/utils@npm:^0.6.1, @primeuix/utils@npm:^0.6.4":
+  version: 0.6.4
+  resolution: "@primeuix/utils@npm:0.6.4"
+  checksum: 10c0/ee5f284c1cd3a5070c5eed6c45d803313574e0db95c45b6fc822ddb76416bbeb86986105ec4912a9d9964cb9bf7736e4b5f316c5406ec3fc16ba8012ba91a9fe
+  languageName: node
+  linkType: hard
+
 "@prisma/client@npm:5.20.0":
   version: 5.20.0
   resolution: "@prisma/client@npm:5.20.0"
@@ -18277,6 +18347,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "web@workspace:web"
   dependencies:
+    "@primereact/headless": "npm:11.0.0-alpha.10"
+    "@primereact/types": "npm:11.0.0-alpha.10"
     "@redwoodjs/auth-dbauth-web": "npm:8.9.0"
     "@redwoodjs/forms": "npm:8.9.0"
     "@redwoodjs/router": "npm:8.9.0"

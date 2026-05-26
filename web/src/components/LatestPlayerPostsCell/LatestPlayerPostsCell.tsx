@@ -38,7 +38,10 @@ export const QUERY: TypedDocumentNode<
 export const Loading = () => (
   <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
     {[1, 2, 3, 4].map((item) => (
-      <div key={item} className="bg-white/8 h-56 animate-pulse rounded-lg" />
+      <div
+        key={item}
+        className="glass-panel h-56 animate-pulse rounded-lg"
+      />
     ))}
   </div>
 )

@@ -5,6 +5,7 @@ import { CalendarPlus, ClipboardList, Heart, UserRound } from 'lucide-react'
 import { NavLink } from '@redwoodjs/router'
 
 import PublicLayout from 'src/layouts/PublicLayout/PublicLayout'
+import { cn } from 'src/lib/cn'
 import { routePath } from 'src/lib/routes'
 
 type AccountLayoutProps = {
@@ -27,6 +28,14 @@ const accountNav = [
   ['Избранное', routePath('accountFavorites', '/account/favorites'), Heart],
 ]
 
+const accountNavLinkClassName =
+  'hover:bg-white/8 flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-semibold text-slate-300 transition hover:text-white'
+
+const accountActiveNavLinkClassName = cn(
+  accountNavLinkClassName,
+  'bg-violet-500/18 text-white'
+)
+
 const AccountLayout = ({ children }: AccountLayoutProps) => {
   return (
     <PublicLayout>
@@ -40,8 +49,8 @@ const AccountLayout = ({ children }: AccountLayoutProps) => {
               <NavLink
                 key={label as string}
                 to={to as string}
-                className="hover:bg-white/8 flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-semibold text-slate-300 transition hover:text-white"
-                activeClassName="bg-violet-500/18 text-white"
+                className={accountNavLinkClassName}
+                activeClassName={accountActiveNavLinkClassName}
               >
                 <Icon className="h-4 w-4" />
                 {label}

@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 import { NavLink } from '@redwoodjs/router'
 
 import PublicLayout from 'src/layouts/PublicLayout/PublicLayout'
+import { cn } from 'src/lib/cn'
 import { routePath } from 'src/lib/routes'
 
 type AdminLayoutProps = {
@@ -17,6 +18,14 @@ const adminNav = [
   ['Объявления', routePath('adminPlayerPosts', '/admin/player-posts')],
 ]
 
+const adminNavLinkClassName =
+  'hover:bg-white/8 rounded-lg px-4 py-2 text-sm font-bold text-slate-300 transition hover:text-white'
+
+const adminActiveNavLinkClassName = cn(
+  adminNavLinkClassName,
+  'bg-orange-500/18 text-white'
+)
+
 const AdminLayout = ({ children }: AdminLayoutProps) => {
   return (
     <PublicLayout>
@@ -26,8 +35,8 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
             <NavLink
               key={label}
               to={to}
-              className="hover:bg-white/8 rounded-lg px-4 py-2 text-sm font-bold text-slate-300 transition hover:text-white"
-              activeClassName="bg-orange-500/18 text-white"
+              className={adminNavLinkClassName}
+              activeClassName={adminActiveNavLinkClassName}
             >
               {label}
             </NavLink>

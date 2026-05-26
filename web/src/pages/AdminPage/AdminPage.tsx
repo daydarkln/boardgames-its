@@ -23,7 +23,9 @@ const AdminPage = () => {
           ['Объявления', routePath('adminPlayerPosts', '/admin/player-posts')],
         ].map(([title, to]) => (
           <Card key={title} className="p-5">
-            <h2 className="text-xl font-black text-white">{title}</h2>
+            <h2 className="font-heading text-xl font-medium leading-none text-white">
+              {title}
+            </h2>
             <Button to={to} variant="secondary" size="sm" className="mt-5">
               Открыть
             </Button>

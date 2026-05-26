@@ -10,7 +10,7 @@ const Select = ({
   return (
     <select
       className={cn(
-        'h-11 w-full rounded-lg border border-white/10 bg-slate-950 px-4 text-sm text-white outline-none transition focus:border-violet-300/60',
+        'h-11 w-full rounded-lg border border-white/10 bg-slate-950/80 px-4 text-sm font-semibold text-white outline-none transition hover:border-white/15 focus:border-violet-300/60 focus:ring-2 focus:ring-violet-500/12',
         className
       )}
       {...props}

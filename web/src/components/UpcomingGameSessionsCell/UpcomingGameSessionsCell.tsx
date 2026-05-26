@@ -10,7 +10,7 @@ import type {
 } from '@redwoodjs/web'
 
 import EmptyState from 'src/components/EmptyState/EmptyState'
-import GameSessionCard from 'src/components/GameSessionCard/GameSessionCard'
+import GameSessionsTimeline from 'src/components/GameSessionsTimeline/GameSessionsTimeline'
 
 export const QUERY: TypedDocumentNode<
   UpcomingGameSessionsQuery,
@@ -41,9 +41,16 @@ export const QUERY: TypedDocumentNode<
 `
 
 export const Loading = () => (
-  <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-    {[1, 2, 3, 4].map((item) => (
-      <div key={item} className="bg-white/8 h-72 animate-pulse rounded-lg" />
+  <div className="grid gap-5">
+    {[1, 2, 3].map((item) => (
+      <div
+        key={item}
+        className="grid gap-3 pl-12 md:grid-cols-[minmax(0,1fr)_2.5rem_minmax(0,1fr)] md:gap-4 md:pl-0"
+      >
+        <div className="hidden h-24 animate-pulse rounded-lg bg-white/5 md:block" />
+        <div className="h-8 w-8 animate-pulse rounded-full bg-white/10" />
+        <div className="glass-panel h-40 animate-pulse rounded-lg" />
+      </div>
     ))}
   </div>
 )
@@ -67,11 +74,5 @@ export const Success = ({
   UpcomingGameSessionsQuery,
   UpcomingGameSessionsQueryVariables
 >) => {
-  return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-      {gameSessions.slice(0, 4).map((game) => (
-        <GameSessionCard key={game.id} game={game} compact />
-      ))}
-    </div>
-  )
+  return <GameSessionsTimeline games={gameSessions.slice(0, 6)} />
 }

@@ -47,7 +47,9 @@ const AccountPage = () => {
           ],
         ].map(([title, description, to]) => (
           <Card key={title} interactive className="p-5">
-            <h2 className="text-xl font-black text-white">{title}</h2>
+            <h2 className="font-heading text-xl font-medium leading-none text-white">
+              {title}
+            </h2>
             <p className="mt-2 text-sm leading-6 text-slate-400">
               {description}
             </p>

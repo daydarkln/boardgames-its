@@ -1,5 +1,7 @@
 import type { HTMLAttributes, ReactNode } from 'react'
 
+import { Badge as RadixBadge } from '@radix-ui/themes'
+
 import { cn } from 'src/lib/cn'
 
 type BadgeProps = HTMLAttributes<HTMLSpanElement> & {
@@ -14,10 +16,8 @@ const tones = {
     'border-orange-400/35 bg-orange-500/18 text-orange-100 shadow-orange-950/20',
   green:
     'border-emerald-400/35 bg-emerald-500/18 text-emerald-100 shadow-emerald-950/20',
-  blue:
-    'border-sky-400/35 bg-sky-500/18 text-sky-100 shadow-sky-950/20',
-  rose:
-    'border-rose-400/35 bg-rose-500/18 text-rose-100 shadow-rose-950/20',
+  blue: 'border-sky-400/35 bg-sky-500/18 text-sky-100 shadow-sky-950/20',
+  rose: 'border-rose-400/35 bg-rose-500/18 text-rose-100 shadow-rose-950/20',
   slate: 'border-white/10 bg-white/8 text-slate-200 shadow-black/10',
 }
 
@@ -28,16 +28,16 @@ const Badge = ({
   ...props
 }: BadgeProps) => {
   return (
-    <span
+    <RadixBadge
       className={cn(
-        'inline-flex items-center rounded-md border px-2 py-1 text-[11px] font-black uppercase leading-none shadow-sm',
+        'inline-flex items-center rounded-md border px-2 py-1 text-[11px] font-black uppercase leading-none shadow-sm [&.rt-Badge]:m-0 [&.rt-Badge]:h-auto [&.rt-Badge]:font-black',
         tones[tone],
         className
       )}
       {...props}
     >
       {children}
-    </span>
+    </RadixBadge>
   )
 }
 

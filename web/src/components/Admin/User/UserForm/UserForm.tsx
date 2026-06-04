@@ -120,7 +120,7 @@ const UserForm = (props: UserFormProps) => {
         </Label>
         <TextField
           name="city"
-          defaultValue={props.user?.city ?? 'Москва'}
+          defaultValue={props.user?.city ?? 'Ростов-на-Дону'}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
         />

@@ -1,4 +1,4 @@
-import { render } from '@redwoodjs/testing/web'
+import { render, screen } from '@redwoodjs/testing/web'
 
 import Tabs from './Tabs'
 
@@ -10,5 +10,22 @@ describe('Tabs', () => {
     expect(() => {
       render(<Tabs />)
     }).not.toThrow()
+  })
+
+  it('marks the selected tab with Radix state', () => {
+    render(
+      <Tabs
+        value="games"
+        tabs={[
+          { value: 'games', label: 'Игры' },
+          { value: 'venues', label: 'Места' },
+        ]}
+      />
+    )
+
+    expect(screen.getByRole('tab', { name: 'Игры' })).toHaveAttribute(
+      'data-state',
+      'active'
+    )
   })
 })

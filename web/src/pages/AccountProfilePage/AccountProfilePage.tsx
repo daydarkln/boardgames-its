@@ -2,16 +2,17 @@ import {
   Form,
   Label,
   SelectField,
-  Submit,
   TextAreaField,
   TextField,
 } from '@redwoodjs/forms'
 import { Metadata, useMutation } from '@redwoodjs/web'
-import { toast } from '@redwoodjs/web/toast'
 
 import { useAuth } from 'src/auth'
+import Button from 'src/components/Button/Button'
 import Card from 'src/components/Card/Card'
 import PageHeader from 'src/components/PageHeader/PageHeader'
+import { notify } from 'src/components/ToastProvider/ToastProvider'
+import { DEFAULT_CITY } from 'src/lib/locations'
 
 const UPDATE_PROFILE = gql`
   mutation UpdateProfileMutation($id: Int!, $input: UpdateUserInput!) {
@@ -39,8 +40,8 @@ type ProfileValues = {
 const AccountProfilePage = () => {
   const { currentUser } = useAuth()
   const [updateProfile, { loading }] = useMutation(UPDATE_PROFILE, {
-    onCompleted: () => toast.success('Профиль обновлен'),
-    onError: (error) => toast.error(error.message),
+    onCompleted: () => notify.success('Профиль обновлен'),
+    onError: (error) => notify.error(error.message),
   })
 
   const onSubmit = (data: ProfileValues) => {
@@ -49,7 +50,7 @@ const AccountProfilePage = () => {
         id: currentUser.id,
         input: {
           name: data.name,
-          city: data.city || 'Москва',
+          city: data.city || DEFAULT_CITY,
           district: data.district,
           bio: data.bio,
           experienceLevel: data.experienceLevel || 'ANY',
@@ -76,41 +77,49 @@ const AccountProfilePage = () => {
         >
           <div className="grid gap-5 md:grid-cols-2">
             <div>
-              <Label name="name" className="text-sm font-bold text-slate-200" />
+              <Label name="name" className="text-sm font-bold text-slate-200">
+                Имя
+              </Label>
               <TextField
                 name="name"
                 defaultValue={currentUser?.name ?? ''}
-                className="rw-input"
+                className="site-control mt-2 px-4"
               />
             </div>
             <div>
-              <Label name="city" className="text-sm font-bold text-slate-200" />
+              <Label name="city" className="text-sm font-bold text-slate-200">
+                Город
+              </Label>
               <TextField
                 name="city"
-                defaultValue={currentUser?.city ?? 'Москва'}
-                className="rw-input"
+                defaultValue={currentUser?.city ?? DEFAULT_CITY}
+                className="site-control mt-2 px-4"
               />
             </div>
             <div>
               <Label
                 name="district"
                 className="text-sm font-bold text-slate-200"
-              />
+              >
+                Район
+              </Label>
               <TextField
                 name="district"
                 defaultValue={currentUser?.district ?? ''}
-                className="rw-input"
+                className="site-control mt-2 px-4"
               />
             </div>
             <div>
               <Label
                 name="experienceLevel"
                 className="text-sm font-bold text-slate-200"
-              />
+              >
+                Игровой опыт
+              </Label>
               <SelectField
                 name="experienceLevel"
                 defaultValue={currentUser?.experienceLevel ?? 'ANY'}
-                className="rw-input"
+                className="site-control mt-2 px-4"
               >
                 <option value="ANY">Любой опыт</option>
                 <option value="BEGINNER">Новичок</option>
@@ -123,25 +132,29 @@ const AccountProfilePage = () => {
             <Label
               name="favoriteGamesText"
               className="text-sm font-bold text-slate-200"
-            />
+            >
+              Любимые игры и системы
+            </Label>
             <TextField
               name="favoriteGamesText"
               defaultValue={currentUser?.favoriteGamesText ?? ''}
-              className="rw-input"
+              className="site-control mt-2 px-4"
               placeholder="Brass, D&D 5e, Blood on the Clocktower"
             />
           </div>
           <div>
-            <Label name="bio" className="text-sm font-bold text-slate-200" />
+            <Label name="bio" className="text-sm font-bold text-slate-200">
+              О себе
+            </Label>
             <TextAreaField
               name="bio"
               defaultValue={currentUser?.bio ?? ''}
-              className="rw-input min-h-32"
+              className="site-control mt-2 min-h-32 px-4 py-3"
             />
           </div>
-          <Submit disabled={loading} className="rw-button rw-button-blue">
+          <Button type="submit" disabled={loading}>
             Сохранить профиль
-          </Submit>
+          </Button>
         </Form>
       </Card>
     </>

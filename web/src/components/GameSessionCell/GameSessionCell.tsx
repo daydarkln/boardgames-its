@@ -11,6 +11,7 @@ import Badge from 'src/components/Badge/Badge'
 import EmptyState from 'src/components/EmptyState/EmptyState'
 import GameSessionCard from 'src/components/GameSessionCard/GameSessionCard'
 import RegistrationControls from 'src/components/RegistrationControls/RegistrationControls'
+import Skeleton from 'src/components/Skeleton/Skeleton'
 import {
   formatCategory,
   formatExperience,
@@ -71,9 +72,7 @@ export const QUERY: TypedDocumentNode<
   }
 `
 
-export const Loading = () => (
-  <div className="glass-panel h-96 animate-pulse rounded-lg" />
-)
+export const Loading = () => <Skeleton className="glass-panel h-96" />
 
 export const Empty = () => <EmptyState title="Игра не найдена" />
 

@@ -75,7 +75,7 @@ const VenuesList = ({ venues }: FindVenues) => {
               <td>{truncate(venue.name)}</td>
               <td>{truncate(venue.description)}</td>
               <td>{truncate(venue.detailedDescription)}</td>
-              <td>{truncate(venue.address)}</td>
+              <td>{truncate(venue.address?.trim() || '—')}</td>
               <td>{truncate(venue.district)}</td>
               <td>{truncate(venue.city)}</td>
               <td>{truncate(venue.websiteUrl)}</td>

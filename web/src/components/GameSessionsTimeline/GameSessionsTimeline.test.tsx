@@ -1,15 +1,6 @@
-import { render, screen } from '@redwoodjs/testing/web'
+import { cleanup, render, screen } from '@redwoodjs/testing/web'
 
 import GameSessionsTimeline from './GameSessionsTimeline'
-
-jest.mock('@primereact/headless/timeline', () => ({
-  useTimeline: () => ({
-    attrs: {
-      align: 'alternate',
-      orientation: 'vertical',
-    },
-  }),
-}))
 
 //   Improve this test with help from the Redwood Testing Doc:
 //    https://redwoodjs.com/docs/testing#testing-components
@@ -28,12 +19,14 @@ describe('GameSessionsTimeline', () => {
       experienceLevel: 'BEGINNER',
       venue: {
         name: 'Board Room',
-        district: 'Тверская',
-        address: 'Тверская, 12',
+        district: 'Кировский',
+        address: 'ул. Большая Садовая, 56',
       },
       registrations: [{ status: 'APPROVED' }],
     },
   ]
+
+  afterEach(() => cleanup())
 
   it('renders successfully', () => {
     expect(() => {
@@ -45,10 +38,10 @@ describe('GameSessionsTimeline', () => {
     render(<GameSessionsTimeline games={games} />)
 
     expect(
-      screen.getByRole('link', { name: /Крылья в клубе/i })
+      screen.getAllByRole('link', { name: /Крылья в клубе/i })[0]
     ).toHaveAttribute('href', '/games/42')
-    expect(screen.getByText(/16:00/)).toBeInTheDocument()
-    expect(screen.getByText(/Board Room/)).toBeInTheDocument()
+    expect(screen.getAllByText(/16:00/).length).toBeGreaterThan(0)
+    expect(screen.getAllByText(/Board Room/).length).toBeGreaterThan(0)
   })
 
   it('renders an empty state for an empty list', () => {

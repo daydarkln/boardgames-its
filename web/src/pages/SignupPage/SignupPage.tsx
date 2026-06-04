@@ -6,13 +6,14 @@ import {
   TextField,
   PasswordField,
   FieldError,
-  Submit,
 } from '@redwoodjs/forms'
 import { Link, navigate } from '@redwoodjs/router'
 import { Metadata } from '@redwoodjs/web'
-import { toast, Toaster } from '@redwoodjs/web/toast'
 
 import { useAuth } from 'src/auth'
+import AuthShell from 'src/components/AuthShell/AuthShell'
+import Button from 'src/components/Button/Button'
+import { notify } from 'src/components/ToastProvider/ToastProvider'
 import { routePath } from 'src/lib/routes'
 
 const SignupPage = () => {
@@ -24,7 +25,6 @@ const SignupPage = () => {
     }
   }, [isAuthenticated])
 
-  // focus on email box on page load
   const emailRef = useRef<HTMLInputElement>(null)
   useEffect(() => {
     emailRef.current?.focus()
@@ -38,12 +38,11 @@ const SignupPage = () => {
     })
 
     if (response.message) {
-      toast(response.message)
+      notify.info(response.message)
     } else if (response.error) {
-      toast.error(response.error)
+      notify.error(response.error)
     } else {
-      // user is signed in automatically
-      toast.success('Аккаунт создан')
+      notify.success('Аккаунт создан')
     }
   }
 
@@ -51,94 +50,91 @@ const SignupPage = () => {
     <>
       <Metadata title="Регистрация" />
 
-      <main className="rw-main">
-        <Toaster toastOptions={{ className: 'rw-toast', duration: 6000 }} />
-        <div className="rw-scaffold rw-login-container">
-          <div className="rw-segment">
-            <header className="rw-segment-header">
-              <h2 className="rw-heading rw-heading-secondary">Регистрация</h2>
-            </header>
-
-            <div className="rw-segment-main">
-              <div className="rw-form-wrapper">
-                <Form onSubmit={onSubmit} className="rw-form-wrapper">
-                  <Label
-                    name="name"
-                    className="rw-label"
-                    errorClassName="rw-label rw-label-error"
-                  >
-                    Имя
-                  </Label>
-                  <TextField
-                    name="name"
-                    className="rw-input"
-                    errorClassName="rw-input rw-input-error"
-                  />
-                  <FieldError name="name" className="rw-field-error" />
-
-                  <Label
-                    name="email"
-                    className="rw-label"
-                    errorClassName="rw-label rw-label-error"
-                  >
-                    Email
-                  </Label>
-                  <TextField
-                    name="email"
-                    className="rw-input"
-                    errorClassName="rw-input rw-input-error"
-                    ref={emailRef}
-                    validation={{
-                      required: {
-                        value: true,
-                        message: 'Email обязателен',
-                      },
-                      pattern: {
-                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                        message: 'Введите корректный email',
-                      },
-                    }}
-                  />
-                  <FieldError name="email" className="rw-field-error" />
-
-                  <Label
-                    name="password"
-                    className="rw-label"
-                    errorClassName="rw-label rw-label-error"
-                  >
-                    Пароль
-                  </Label>
-                  <PasswordField
-                    name="password"
-                    className="rw-input"
-                    errorClassName="rw-input rw-input-error"
-                    autoComplete="current-password"
-                    validation={{
-                      required: {
-                        value: true,
-                        message: 'Пароль обязателен',
-                      },
-                    }}
-                  />
-                  <FieldError name="password" className="rw-field-error" />
-
-                  <div className="rw-button-group">
-                    <Submit className="rw-button rw-button-blue">
-                      Зарегистрироваться
-                    </Submit>
-                  </div>
-                </Form>
-              </div>
-            </div>
-          </div>
-          <div className="rw-login-link">
-            <span>Уже есть аккаунт?</span>{' '}
+      <AuthShell
+        title="Создать аккаунт"
+        description="Регистрация нужна для записи на игры, избранного и личного кабинета."
+        activeTab="signup"
+        footer={
+          <span className="text-slate-400">
+            Уже есть аккаунт?{' '}
             <Link to={routePath('login', '/login')} className="rw-link">
               Войти
             </Link>
+          </span>
+        }
+      >
+        <Form onSubmit={onSubmit} className="grid gap-4">
+          <div>
+            <Label
+              name="name"
+              className="text-sm font-bold text-slate-200"
+              errorClassName="text-sm font-bold text-rose-200"
+            >
+              Имя
+            </Label>
+            <TextField
+              name="name"
+              className="site-control mt-2 px-4"
+              errorClassName="site-control mt-2 border-rose-300/60 px-4"
+            />
+            <FieldError name="name" className="site-field-error" />
           </div>
-        </div>
-      </main>
+
+          <div>
+            <Label
+              name="email"
+              className="text-sm font-bold text-slate-200"
+              errorClassName="text-sm font-bold text-rose-200"
+            >
+              Email
+            </Label>
+            <TextField
+              name="email"
+              className="site-control mt-2 px-4"
+              errorClassName="site-control mt-2 border-rose-300/60 px-4"
+              ref={emailRef}
+              validation={{
+                required: {
+                  value: true,
+                  message: 'Email обязателен',
+                },
+                pattern: {
+                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                  message: 'Введите корректный email',
+                },
+              }}
+            />
+            <FieldError name="email" className="site-field-error" />
+          </div>
+
+          <div>
+            <Label
+              name="password"
+              className="text-sm font-bold text-slate-200"
+              errorClassName="text-sm font-bold text-rose-200"
+            >
+              Пароль
+            </Label>
+            <PasswordField
+              name="password"
+              className="site-control mt-2 px-4"
+              errorClassName="site-control mt-2 border-rose-300/60 px-4"
+              autoComplete="current-password"
+              validation={{
+                required: {
+                  value: true,
+                  message: 'Пароль обязателен',
+                },
+              }}
+            />
+            <FieldError name="password" className="site-field-error" />
+          </div>
+
+          <Button type="submit" className="w-full">
+            Зарегистрироваться
+          </Button>
+        </Form>
+      </AuthShell>
     </>
   )
 }

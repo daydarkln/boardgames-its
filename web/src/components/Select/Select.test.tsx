@@ -1,4 +1,4 @@
-import { render } from '@redwoodjs/testing/web'
+import { render, screen } from '@redwoodjs/testing/web'
 
 import Select from './Select'
 
@@ -10,5 +10,19 @@ describe('Select', () => {
     expect(() => {
       render(<Select />)
     }).not.toThrow()
+  })
+
+  it('renders the selected option in the trigger', () => {
+    render(
+      <Select
+        value="BOARD_GAMES"
+        options={[
+          { value: '', label: 'Все направления' },
+          { value: 'BOARD_GAMES', label: 'Настолки' },
+        ]}
+      />
+    )
+
+    expect(screen.getByRole('combobox')).toHaveTextContent('Настолки')
   })
 })

@@ -17,8 +17,8 @@ const registration = (id: number) => ({
     venue: {
       __typename: 'Venue' as const,
       name: 'Board Room',
-      district: 'Тверская',
-      address: 'Тверская, 12',
+      district: 'Кировский',
+      address: 'ул. Большая Садовая, 56',
     },
     registrations: [
       {

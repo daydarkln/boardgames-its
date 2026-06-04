@@ -1,17 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 
-import {
-  Form,
-  Label,
-  PasswordField,
-  Submit,
-  FieldError,
-} from '@redwoodjs/forms'
-import { navigate } from '@redwoodjs/router'
+import { Form, Label, PasswordField, FieldError } from '@redwoodjs/forms'
+import { Link, navigate } from '@redwoodjs/router'
 import { Metadata } from '@redwoodjs/web'
-import { toast, Toaster } from '@redwoodjs/web/toast'
 
 import { useAuth } from 'src/auth'
+import AuthShell from 'src/components/AuthShell/AuthShell'
+import Button from 'src/components/Button/Button'
+import { notify } from 'src/components/ToastProvider/ToastProvider'
 import { routePath } from 'src/lib/routes'
 
 const ResetPasswordPage = ({ resetToken }: { resetToken: string }) => {
@@ -30,7 +26,7 @@ const ResetPasswordPage = ({ resetToken }: { resetToken: string }) => {
       const response = await validateResetToken(resetToken)
       if (response.error) {
         setEnabled(false)
-        toast.error(response.error)
+        notify.error(response.error)
       } else {
         setEnabled(true)
       }
@@ -50,9 +46,9 @@ const ResetPasswordPage = ({ resetToken }: { resetToken: string }) => {
     })
 
     if (response.error) {
-      toast.error(response.error)
+      notify.error(response.error)
     } else {
-      toast.success('Пароль изменен')
+      notify.success('Пароль изменен')
       await reauthenticate()
       navigate(routePath('login', '/login'))
     }
@@ -62,57 +58,48 @@ const ResetPasswordPage = ({ resetToken }: { resetToken: string }) => {
     <>
       <Metadata title="Новый пароль" />
 
-      <main className="rw-main">
-        <Toaster toastOptions={{ className: 'rw-toast', duration: 6000 }} />
-        <div className="rw-scaffold rw-login-container">
-          <div className="rw-segment">
-            <header className="rw-segment-header">
-              <h2 className="rw-heading rw-heading-secondary">Новый пароль</h2>
-            </header>
+      <AuthShell
+        title="Новый пароль"
+        description="Придумайте новый пароль для аккаунта."
+        activeTab="reset"
+        footer={
+          <Link to={routePath('login', '/login')} className="rw-link">
+            Вернуться ко входу
+          </Link>
+        }
+      >
+        <Form onSubmit={onSubmit} className="grid gap-4">
+          <div>
+            <Label
+              name="password"
+              className="text-sm font-bold text-slate-200"
+              errorClassName="text-sm font-bold text-rose-200"
+            >
+              Новый пароль
+            </Label>
+            <PasswordField
+              name="password"
+              autoComplete="new-password"
+              className="site-control mt-2 px-4"
+              errorClassName="site-control mt-2 border-rose-300/60 px-4"
+              disabled={!enabled}
+              ref={passwordRef}
+              validation={{
+                required: {
+                  value: true,
+                  message: 'Пароль обязателен',
+                },
+              }}
+            />
 
-            <div className="rw-segment-main">
-              <div className="rw-form-wrapper">
-                <Form onSubmit={onSubmit} className="rw-form-wrapper">
-                  <div className="text-left">
-                    <Label
-                      name="password"
-                      className="rw-label"
-                      errorClassName="rw-label rw-label-error"
-                    >
-                      Новый пароль
-                    </Label>
-                    <PasswordField
-                      name="password"
-                      autoComplete="new-password"
-                      className="rw-input"
-                      errorClassName="rw-input rw-input-error"
-                      disabled={!enabled}
-                      ref={passwordRef}
-                      validation={{
-                        required: {
-                          value: true,
-                          message: 'Пароль обязателен',
-                        },
-                      }}
-                    />
-
-                    <FieldError name="password" className="rw-field-error" />
-                  </div>
-
-                  <div className="rw-button-group">
-                    <Submit
-                      className="rw-button rw-button-blue"
-                      disabled={!enabled}
-                    >
-                      Сохранить
-                    </Submit>
-                  </div>
-                </Form>
-              </div>
-            </div>
+            <FieldError name="password" className="site-field-error" />
           </div>
-        </div>
-      </main>
+
+          <Button type="submit" className="w-full" disabled={!enabled}>
+            Сохранить
+          </Button>
+        </Form>
+      </AuthShell>
     </>
   )
 }

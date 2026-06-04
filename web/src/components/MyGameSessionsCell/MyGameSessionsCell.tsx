@@ -9,12 +9,13 @@ import type {
   TypedDocumentNode,
 } from '@redwoodjs/web'
 import { useMutation } from '@redwoodjs/web'
-import { toast } from '@redwoodjs/web/toast'
 
 import Badge from 'src/components/Badge/Badge'
 import Button from 'src/components/Button/Button'
 import EmptyState from 'src/components/EmptyState/EmptyState'
 import GameSessionCard from 'src/components/GameSessionCard/GameSessionCard'
+import Skeleton from 'src/components/Skeleton/Skeleton'
+import { notify } from 'src/components/ToastProvider/ToastProvider'
 import { formatStatus } from 'src/lib/categories'
 
 export const QUERY: TypedDocumentNode<
@@ -79,9 +80,7 @@ const DECLINE_REGISTRATION = gql`
   }
 `
 
-export const Loading = () => (
-  <div className="bg-white/8 h-72 animate-pulse rounded-lg" />
-)
+export const Loading = () => <Skeleton className="h-72" />
 
 export const Empty = () => <EmptyState title="Вы пока не создавали игры" />
 
@@ -100,23 +99,23 @@ export const Success = ({
   const refetchQueries = ['MyGameSessionsQuery']
   const [cancelGame, { loading: cancelling }] = useMutation(CANCEL_GAME, {
     refetchQueries,
-    onCompleted: () => toast.success('Игра отменена'),
-    onError: (error) => toast.error(error.message),
+    onCompleted: () => notify.success('Игра отменена'),
+    onError: (error) => notify.error(error.message),
   })
   const [approveRegistration, { loading: approving }] = useMutation(
     APPROVE_REGISTRATION,
     {
       refetchQueries,
-      onCompleted: () => toast.success('Заявка подтверждена'),
-      onError: (error) => toast.error(error.message),
+      onCompleted: () => notify.success('Заявка подтверждена'),
+      onError: (error) => notify.error(error.message),
     }
   )
   const [declineRegistration, { loading: declining }] = useMutation(
     DECLINE_REGISTRATION,
     {
       refetchQueries,
-      onCompleted: () => toast.success('Заявка отклонена'),
-      onError: (error) => toast.error(error.message),
+      onCompleted: () => notify.success('Заявка отклонена'),
+      onError: (error) => notify.error(error.message),
     }
   )
 

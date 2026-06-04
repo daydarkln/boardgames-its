@@ -28,7 +28,7 @@ const createSession = (organizerId: number) =>
       minPlayers: 1,
       experienceLevel: 'ANY',
       isOnline: false,
-      locationDetails: 'Тверская, 12',
+      locationDetails: 'ул. Большая Садовая, 56',
       organizerId,
       tags: [],
     },

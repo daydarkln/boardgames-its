@@ -11,6 +11,7 @@ import type {
 
 import EmptyState from 'src/components/EmptyState/EmptyState'
 import GameSessionCard from 'src/components/GameSessionCard/GameSessionCard'
+import Skeleton from 'src/components/Skeleton/Skeleton'
 
 export const QUERY: TypedDocumentNode<
   GameSessionsQuery,
@@ -43,10 +44,7 @@ export const QUERY: TypedDocumentNode<
 export const Loading = () => (
   <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
     {[1, 2, 3, 4, 5, 6].map((item) => (
-      <div
-        key={item}
-        className="glass-panel h-72 animate-pulse rounded-lg"
-      />
+      <Skeleton key={item} className="glass-panel h-72" />
     ))}
   </div>
 )

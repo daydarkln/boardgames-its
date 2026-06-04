@@ -38,8 +38,8 @@ export const Primary: Story = {
         experienceLevel: 'BEGINNER',
         venue: {
           name: 'Board Room',
-          district: 'Тверская',
-          address: 'Тверская, 12',
+          district: 'Кировский',
+          address: 'ул. Большая Садовая, 56',
         },
         registrations: [{ status: 'APPROVED' }],
       },
@@ -55,8 +55,8 @@ export const Primary: Story = {
         experienceLevel: 'ANY',
         venue: {
           name: 'Лофт Героев',
-          district: 'Басманный',
-          address: 'Покровка, 8',
+          district: 'Пролетарский',
+          address: 'ул. 1-я Майская, 10',
         },
         registrations: [{ status: 'APPROVED' }, { status: 'PENDING' }],
       },

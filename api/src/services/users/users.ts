@@ -54,7 +54,7 @@ export const createUser: MutationResolvers['createUser'] = ({ input }) => {
       ...data,
       hashedPassword,
       salt,
-      city: input.city || 'Москва',
+      city: input.city || 'Ростов-на-Дону',
       favoriteDirections: input.favoriteDirections ?? [],
     },
   })

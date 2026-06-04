@@ -7,7 +7,7 @@ import { handler } from './health'
 
 describe('health function', () => {
   it('Should respond with 200', async () => {
-    const httpEvent = mockHttpEvent()
+    const httpEvent = mockHttpEvent({})
 
     const response = await handler(httpEvent, mockContext())
     const body = JSON.parse(response.body)

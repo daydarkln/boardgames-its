@@ -1,13 +1,14 @@
-import type { ChangeEvent } from 'react'
 import { useEffect, useState } from 'react'
 
 import { navigate, useLocation } from '@redwoodjs/router'
 import { Metadata } from '@redwoodjs/web'
 
+import Checkbox from 'src/components/Checkbox/Checkbox'
 import GameSessionsCell from 'src/components/GameSessionsCell'
 import PageHeader from 'src/components/PageHeader/PageHeader'
 import Select from 'src/components/Select/Select'
 import type { CategoryKey } from 'src/lib/categories'
+import { rostovDistrictOptions } from 'src/lib/locations'
 import { routePath } from 'src/lib/routes'
 import { useUiStore } from 'src/stores/uiStore'
 
@@ -40,8 +41,8 @@ const GamesPage = () => {
     }
   }, [filters.category, location.search, setFilter])
 
-  const handleCategoryChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    const nextCategory = event.target.value as CategoryKey | ''
+  const handleCategoryChange = (nextValue: string) => {
+    const nextCategory = nextValue as CategoryKey | ''
     const nextParams = new URLSearchParams(location.search)
 
     setCategory(nextCategory)
@@ -80,41 +81,46 @@ const GamesPage = () => {
           description="Фильтруйте встречи по направлению, району, опыту и свободным местам."
         />
         <div className="glass-panel mb-6 grid gap-3 rounded-xl p-3 md:grid-cols-4">
-          <Select value={category} onChange={handleCategoryChange}>
-            <option value="">Все направления</option>
-            <option value="BOARD_GAMES">Настолки</option>
-            <option value="TTRPG">НРИ</option>
-            <option value="MAFIA">Мафия</option>
-          </Select>
+          <Select
+            value={category}
+            onValueChange={handleCategoryChange}
+            options={[
+              { value: '', label: 'Все направления' },
+              { value: 'BOARD_GAMES', label: 'Настолки' },
+              { value: 'TTRPG', label: 'НРИ' },
+              { value: 'MAFIA', label: 'Мафия' },
+            ]}
+            aria-label="Направление"
+          />
           <Select
             value={filters.experienceLevel}
-            onChange={(event) =>
-              setFilter('experienceLevel', event.target.value)
+            onValueChange={(nextValue) =>
+              setFilter('experienceLevel', nextValue)
             }
-          >
-            <option value="">Любой опыт</option>
-            <option value="BEGINNER">Новичок</option>
-            <option value="INTERMEDIATE">Средний</option>
-            <option value="ADVANCED">Продвинутый</option>
-          </Select>
+            options={[
+              { value: '', label: 'Любой опыт' },
+              { value: 'BEGINNER', label: 'Новичок' },
+              { value: 'INTERMEDIATE', label: 'Средний' },
+              { value: 'ADVANCED', label: 'Продвинутый' },
+            ]}
+            aria-label="Опыт"
+          />
           <Select
             value={filters.district}
-            onChange={(event) => setFilter('district', event.target.value)}
-          >
-            <option value="">Все районы</option>
-            <option value="Тверская">Тверская</option>
-            <option value="Бауманская">Бауманская</option>
-            <option value="Стартаковская">Стартаковская</option>
-            <option value="Курская">Курская</option>
-          </Select>
-          <label className="flex h-11 items-center gap-3 rounded-lg border border-white/10 bg-slate-950/45 px-4 text-sm font-bold text-slate-200">
-            <input
-              type="checkbox"
-              checked={filters.hasSeats}
-              onChange={(event) => setFilter('hasSeats', event.target.checked)}
-            />
-            Есть свободные места
-          </label>
+            onValueChange={(nextValue) => setFilter('district', nextValue)}
+            options={[
+              { value: '', label: 'Все районы' },
+              ...rostovDistrictOptions,
+            ]}
+            aria-label="Район"
+          />
+          <Checkbox
+            checked={filters.hasSeats}
+            onCheckedChange={(checked) =>
+              setFilter('hasSeats', checked === true)
+            }
+            label="Есть свободные места"
+          />
         </div>
         <GameSessionsCell input={input} />
       </div>

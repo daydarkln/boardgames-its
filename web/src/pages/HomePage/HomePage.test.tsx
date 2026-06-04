@@ -2,15 +2,6 @@ import { render, screen } from '@redwoodjs/testing/web'
 
 import HomePage from './HomePage'
 
-jest.mock('@primereact/headless/timeline', () => ({
-  useTimeline: () => ({
-    attrs: {
-      align: 'alternate',
-      orientation: 'vertical',
-    },
-  }),
-}))
-
 //   Improve this test with help from the Redwood Testing Doc:
 //   https://redwoodjs.com/docs/testing#testing-pages-layouts
 

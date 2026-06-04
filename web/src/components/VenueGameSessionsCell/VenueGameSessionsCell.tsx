@@ -11,6 +11,7 @@ import type {
 
 import EmptyState from 'src/components/EmptyState/EmptyState'
 import GameSessionCard from 'src/components/GameSessionCard/GameSessionCard'
+import Skeleton from 'src/components/Skeleton/Skeleton'
 
 export const QUERY: TypedDocumentNode<
   VenueGameSessionsQuery,
@@ -40,9 +41,7 @@ export const QUERY: TypedDocumentNode<
   }
 `
 
-export const Loading = () => (
-  <div className="bg-white/8 h-72 animate-pulse rounded-lg" />
-)
+export const Loading = () => <Skeleton className="h-72" />
 
 export const Empty = () => <EmptyState title="Игр на площадке пока нет" />
 

@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 
 import { NavLink } from '@redwoodjs/router'
+import { Toaster } from '@redwoodjs/web/toast'
 
 import PublicLayout from 'src/layouts/PublicLayout/PublicLayout'
 import { cn } from 'src/lib/cn'
@@ -29,6 +30,7 @@ const adminActiveNavLinkClassName = cn(
 const AdminLayout = ({ children }: AdminLayoutProps) => {
   return (
     <PublicLayout>
+      <Toaster toastOptions={{ className: 'rw-toast', duration: 5000 }} />
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="mb-6 flex flex-wrap gap-2 rounded-xl border border-white/10 bg-slate-950/70 p-2">
           {adminNav.map(([label, to]) => (

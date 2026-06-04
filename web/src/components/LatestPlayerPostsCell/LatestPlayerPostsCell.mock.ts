@@ -4,7 +4,7 @@ const playerPost = (id: number) => ({
   title: `Объявление ${id}`,
   description: 'Описание объявления',
   category: 'BOARD_GAMES' as const,
-  district: 'Тверская',
+  district: 'Кировский',
   isOnline: false,
   experienceLevel: 'ANY' as const,
   neededPlayers: 4,

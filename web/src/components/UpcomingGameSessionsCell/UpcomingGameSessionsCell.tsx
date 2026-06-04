@@ -11,6 +11,7 @@ import type {
 
 import EmptyState from 'src/components/EmptyState/EmptyState'
 import GameSessionsTimeline from 'src/components/GameSessionsTimeline/GameSessionsTimeline'
+import Skeleton from 'src/components/Skeleton/Skeleton'
 
 export const QUERY: TypedDocumentNode<
   UpcomingGameSessionsQuery,
@@ -47,9 +48,9 @@ export const Loading = () => (
         key={item}
         className="grid gap-3 pl-12 md:grid-cols-[minmax(0,1fr)_2.5rem_minmax(0,1fr)] md:gap-4 md:pl-0"
       >
-        <div className="hidden h-24 animate-pulse rounded-lg bg-white/5 md:block" />
-        <div className="h-8 w-8 animate-pulse rounded-full bg-white/10" />
-        <div className="glass-panel h-40 animate-pulse rounded-lg" />
+        <Skeleton className="hidden h-24 md:block" />
+        <Skeleton className="h-8 w-8 rounded-full" />
+        <Skeleton className="glass-panel h-40" />
       </div>
     ))}
   </div>

@@ -19,6 +19,18 @@
     color-scheme: dark;
   }
 
+  .radix-themes {
+    --default-font-family:
+      ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+      sans-serif;
+    --heading-font-family:
+      'Finlandica Headline', ui-sans-serif, system-ui, -apple-system,
+      BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    background: transparent;
+    color: inherit;
+  }
+
   * {
     scrollbar-color: rgba(148, 163, 184, 0.45) transparent;
   }
@@ -129,14 +141,13 @@
   }
 
   .app-frame {
-    border: 1px solid rgba(168, 85, 247, 0.32);
     background:
       linear-gradient(180deg, rgba(15, 23, 42, 0.9), rgba(2, 6, 23, 0.92)),
       radial-gradient(circle at 20% 0%, rgba(249, 115, 22, 0.12), transparent 36rem);
-    box-shadow:
-      0 0 0 1px rgba(255, 255, 255, 0.05) inset,
-      0 30px 120px rgba(0, 0, 0, 0.55),
-      0 0 80px rgba(124, 58, 237, 0.16);
+  }
+
+  .header {
+    border-bottom: 1px solid rgba(168, 85, 247, 0.32);
   }
 
   .glass-panel {
@@ -174,5 +185,50 @@
 
   .no-scrollbar::-webkit-scrollbar {
     display: none;
+  }
+
+  .site-control {
+    min-height: 2.75rem;
+    width: 100%;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(2, 6, 23, 0.45);
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 600;
+    outline: none;
+    transition:
+      border-color 160ms ease,
+      background-color 160ms ease,
+      box-shadow 160ms ease;
+  }
+
+  .site-control:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .site-control:focus,
+  .site-control:focus-visible,
+  .site-control[data-state='open'] {
+    border-color: rgba(196, 181, 253, 0.75);
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.14);
+  }
+
+  .site-control::placeholder {
+    color: #64748b;
+  }
+
+  .site-label {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #e2e8f0;
+  }
+
+  .site-field-error {
+    margin-top: 0.25rem;
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #fda4af;
   }
 }

@@ -5,6 +5,8 @@ import Button from 'src/components/Button/Button'
 import LatestPlayerPostsCell from 'src/components/LatestPlayerPostsCell'
 import PageHeader from 'src/components/PageHeader/PageHeader'
 import Select from 'src/components/Select/Select'
+import Switch from 'src/components/Switch/Switch'
+import { rostovDistrictOptions } from 'src/lib/locations'
 import { routePath } from 'src/lib/routes'
 
 const PlayersPage = () => {
@@ -32,28 +34,35 @@ const PlayersPage = () => {
           }
         />
         <div className="glass-panel mb-6 grid gap-3 rounded-xl p-3 md:grid-cols-[1fr_1fr_1fr_auto]">
-          <Select>
-            <option value="">Все районы</option>
-            <option value="Тверская">Тверская</option>
-            <option value="Бауманская">Бауманская</option>
-            <option value="Стартаковская">Стартаковская</option>
-          </Select>
-          <Select>
-            <option value="">Тип игры</option>
-            <option value="BOARD_GAMES">Настолки</option>
-            <option value="TTRPG">НРИ</option>
-            <option value="MAFIA">Мафия</option>
-          </Select>
-          <Select>
-            <option value="">Опыт</option>
-            <option value="BEGINNER">Новичок</option>
-            <option value="INTERMEDIATE">Средний</option>
-            <option value="ADVANCED">Продвинутый</option>
-          </Select>
-          <label className="flex h-11 items-center gap-3 rounded-lg border border-white/10 bg-slate-950/45 px-4 text-sm font-bold text-slate-200">
-            <input type="checkbox" />
-            Онлайн и офлайн
-          </label>
+          <Select
+            defaultValue=""
+            options={[
+              { value: '', label: 'Все районы' },
+              ...rostovDistrictOptions,
+            ]}
+            aria-label="Район"
+          />
+          <Select
+            defaultValue=""
+            options={[
+              { value: '', label: 'Тип игры' },
+              { value: 'BOARD_GAMES', label: 'Настолки' },
+              { value: 'TTRPG', label: 'НРИ' },
+              { value: 'MAFIA', label: 'Мафия' },
+            ]}
+            aria-label="Тип игры"
+          />
+          <Select
+            defaultValue=""
+            options={[
+              { value: '', label: 'Опыт' },
+              { value: 'BEGINNER', label: 'Новичок' },
+              { value: 'INTERMEDIATE', label: 'Средний' },
+              { value: 'ADVANCED', label: 'Продвинутый' },
+            ]}
+            aria-label="Опыт"
+          />
+          <Switch label="Онлайн и офлайн" defaultChecked />
         </div>
         <LatestPlayerPostsCell />
       </div>

@@ -1,4 +1,3 @@
-import { useTimeline } from '@primereact/headless/timeline'
 import { CalendarClock, MapPin, Users } from 'lucide-react'
 
 import { Link } from '@redwoodjs/router'
@@ -63,11 +62,6 @@ const activeRegistrationCount = (
   ).length ?? 0
 
 const GameSessionsTimeline = ({ games = [] }: GameSessionsTimelineProps) => {
-  const timeline = useTimeline({
-    align: 'alternate',
-    orientation: 'vertical',
-  })
-
   if (games.length === 0) {
     return (
       <EmptyState
@@ -78,16 +72,10 @@ const GameSessionsTimeline = ({ games = [] }: GameSessionsTimelineProps) => {
   }
 
   return (
-    <div
-      className="relative"
-      data-timeline-align={String(timeline.attrs.align ?? 'alternate')}
-      data-timeline-orientation={String(
-        timeline.attrs.orientation ?? 'vertical'
-      )}
-    >
+    <div className="relative">
       <div className="absolute bottom-0 left-4 top-0 w-px bg-gradient-to-b from-orange-300/70 via-violet-400/55 to-sky-300/15 md:left-1/2" />
       <ol className="grid gap-5">
-        {games.map((game, index) => {
+        {[...games, ...games, ...games].map((game, index) => {
           const gamePath = routePath('game', `/games/${game.id}`, {
             id: game.id,
           })
@@ -105,7 +93,7 @@ const GameSessionsTimeline = ({ games = [] }: GameSessionsTimelineProps) => {
 
           return (
             <li
-              key={game.id}
+              key={`${game.id}-${index}`}
               className="relative grid gap-3 pl-12 md:grid-cols-[minmax(0,1fr)_2.5rem_minmax(0,1fr)] md:items-stretch md:gap-4 md:pl-0"
             >
               <div

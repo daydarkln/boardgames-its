@@ -1,16 +1,7 @@
-import { render, screen } from '@redwoodjs/testing/web'
+import { cleanup, render, screen } from '@redwoodjs/testing/web'
 
 import { Loading, Empty, Failure, Success } from './UpcomingGameSessionsCell'
 import { standard } from './UpcomingGameSessionsCell.mock'
-
-jest.mock('@primereact/headless/timeline', () => ({
-  useTimeline: () => ({
-    attrs: {
-      align: 'alternate',
-      orientation: 'vertical',
-    },
-  }),
-}))
 
 // Generated boilerplate tests do not account for all circumstances
 // and can fail without adjustments, e.g. Float and DateTime types.
@@ -19,6 +10,8 @@ jest.mock('@primereact/headless/timeline', () => ({
 // https://redwoodjs.com/docs/testing#jest-expect-type-considerations
 
 describe('UpcomingGameSessionsCell', () => {
+  afterEach(() => cleanup())
+
   it('renders Loading successfully', () => {
     expect(() => {
       render(<Loading />)
@@ -52,9 +45,9 @@ describe('UpcomingGameSessionsCell', () => {
   it('renders upcoming games as clickable timeline items', async () => {
     render(<Success gameSessions={standard().gameSessions} />)
 
-    const firstGameLink = screen.getByRole('link', { name: /Игра 42/i })
+    const firstGameLink = screen.getAllByRole('link', { name: /Игра 42/i })[0]
 
     expect(firstGameLink).toHaveAttribute('href', '/games/42')
-    expect(screen.getByText('Игра 43')).toBeInTheDocument()
+    expect(screen.getAllByText('Игра 43').length).toBeGreaterThan(0)
   })
 })

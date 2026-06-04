@@ -62,7 +62,7 @@ model User {
 
   name               String?
   avatarUrl          String?
-  city               String          @default("Москва")
+  city               String          @default("Ростов-на-Дону")
   district           String?
   bio                String?
   favoriteDirections GameCategory[]
@@ -83,9 +83,9 @@ model Venue {
   name                String
   description         String
   detailedDescription String?
-  address             String
+  address             String?
   district            String?
-  city                String   @default("Москва")
+  city                String   @default("Ростов-на-Дону")
   websiteUrl          String?
   phone               String?
   imageUrl            String?
@@ -157,7 +157,7 @@ model PlayerPost {
   title           String
   description     String
   category        GameCategory
-  city            String           @default("Москва")
+  city            String           @default("Ростов-на-Дону")
   district        String?
   isOnline        Boolean          @default(false)
   experienceLevel ExperienceLevel  @default(ANY)

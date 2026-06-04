@@ -46,7 +46,7 @@ const createSession = async (
       experienceLevel: 'ANY',
       isOnline: false,
       isPrivate: false,
-      locationDetails: 'Тверская, 12',
+      locationDetails: 'ул. Большая Садовая, 56',
       organizerId,
       tags: [],
       ...data,

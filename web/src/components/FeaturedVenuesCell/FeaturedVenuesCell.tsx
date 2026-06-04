@@ -10,6 +10,7 @@ import type {
 } from '@redwoodjs/web'
 
 import EmptyState from 'src/components/EmptyState/EmptyState'
+import Skeleton from 'src/components/Skeleton/Skeleton'
 import VenueCard from 'src/components/VenueCard/VenueCard'
 
 export const QUERY: TypedDocumentNode<
@@ -33,10 +34,7 @@ export const QUERY: TypedDocumentNode<
 export const Loading = () => (
   <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
     {[1, 2, 3, 4].map((item) => (
-      <div
-        key={item}
-        className="glass-panel h-64 animate-pulse rounded-lg"
-      />
+      <Skeleton key={item} className="glass-panel h-64" />
     ))}
   </div>
 )

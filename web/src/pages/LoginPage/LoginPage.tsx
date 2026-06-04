@@ -5,15 +5,16 @@ import {
   Label,
   TextField,
   PasswordField,
-  Submit,
   FieldError,
 } from '@redwoodjs/forms'
 import { Link, navigate } from '@redwoodjs/router'
 import { Metadata } from '@redwoodjs/web'
-import { toast } from '@redwoodjs/web/toast'
 
 import { useAuth } from 'src/auth'
 import AuthShell from 'src/components/AuthShell/AuthShell'
+import Button from 'src/components/Button/Button'
+import Checkbox from 'src/components/Checkbox/Checkbox'
+import { notify } from 'src/components/ToastProvider/ToastProvider'
 import { routePath } from 'src/lib/routes'
 
 const LoginPage = () => {
@@ -37,11 +38,11 @@ const LoginPage = () => {
     })
 
     if (response.message) {
-      toast(response.message)
+      notify.info(response.message)
     } else if (response.error) {
-      toast.error(response.error)
+      notify.error(response.error)
     } else {
-      toast.success('Вы вошли')
+      notify.success('Вы вошли')
     }
   }
 
@@ -76,8 +77,8 @@ const LoginPage = () => {
             </Label>
             <TextField
               name="email"
-              className="rw-input"
-              errorClassName="rw-input rw-input-error"
+              className="site-control mt-2 px-4"
+              errorClassName="site-control mt-2 border-rose-300/60 px-4"
               ref={emailRef}
               validation={{
                 required: {
@@ -90,7 +91,7 @@ const LoginPage = () => {
                 },
               }}
             />
-            <FieldError name="email" className="rw-field-error" />
+            <FieldError name="email" className="site-field-error" />
           </div>
 
           <div>
@@ -103,8 +104,8 @@ const LoginPage = () => {
             </Label>
             <PasswordField
               name="password"
-              className="rw-input"
-              errorClassName="rw-input rw-input-error"
+              className="site-control mt-2 px-4"
+              errorClassName="site-control mt-2 border-rose-300/60 px-4"
               autoComplete="current-password"
               validation={{
                 required: {
@@ -113,14 +114,20 @@ const LoginPage = () => {
                 },
               }}
             />
-            <FieldError name="password" className="rw-field-error" />
+            <FieldError name="password" className="site-field-error" />
           </div>
 
           <div className="flex items-center justify-between gap-3 text-xs font-semibold text-slate-400">
-            <label className="inline-flex items-center gap-2">
-              <input type="checkbox" className="h-4 w-4 rounded" />
-              Запомнить меня
-            </label>
+            <Checkbox
+              label="Запомнить меня"
+              labelClassName="min-h-0 border-0 bg-transparent px-0 text-xs text-slate-400"
+            />
+          </div>
+
+          <Button type="submit" className="w-full">
+            Войти
+          </Button>
+          <div className="flex items-center justify-between gap-3">
             <Link to={routePath('signup', '/signup')} className="rw-link">
               Зарегистрироваться
             </Link>
@@ -130,25 +137,6 @@ const LoginPage = () => {
             >
               Забыли пароль?
             </Link>
-          </div>
-
-          <Submit className="rw-button rw-button-blue w-full">Войти</Submit>
-
-          <div className="flex items-center gap-3 text-xs font-semibold text-slate-500">
-            <span className="h-px flex-1 bg-white/10" />
-            или продолжите с
-            <span className="h-px flex-1 bg-white/10" />
-          </div>
-          <div className="grid grid-cols-3 gap-3">
-            {['VK', 'TG', 'G'].map((item) => (
-              <button
-                key={item}
-                type="button"
-                className="h-11 rounded-lg border border-white/10 bg-slate-950/45 text-sm font-black text-slate-200 hover:bg-white/8"
-              >
-                {item}
-              </button>
-            ))}
           </div>
         </Form>
       </AuthShell>

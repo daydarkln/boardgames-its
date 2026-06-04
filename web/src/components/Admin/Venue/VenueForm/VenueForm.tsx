@@ -100,7 +100,6 @@ const VenueForm = (props: VenueFormProps) => {
           defaultValue={props.venue?.address}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
         />
 
         <FieldError name="address" className="rw-field-error" />

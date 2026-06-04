@@ -2,10 +2,10 @@ import { Heart, LogIn, XCircle } from 'lucide-react'
 
 import { Link, routes } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
-import { toast } from '@redwoodjs/web/toast'
 
 import { useAuth } from 'src/auth'
 import Button from 'src/components/Button/Button'
+import { notify } from 'src/components/ToastProvider/ToastProvider'
 
 const REGISTER = gql`
   mutation RegisterForGameSessionMutation($id: Int!) {
@@ -59,25 +59,25 @@ const RegistrationControls = ({ game }: RegistrationControlsProps) => {
   const refetchQueries = ['GameSessionQuery']
   const [register, { loading: registering }] = useMutation(REGISTER, {
     refetchQueries,
-    onCompleted: () => toast.success('Запись создана'),
-    onError: (error) => toast.error(error.message),
+    onCompleted: () => notify.success('Запись создана'),
+    onError: (error) => notify.error(error.message),
   })
   const [cancel, { loading: cancelling }] = useMutation(CANCEL_REGISTRATION, {
     refetchQueries,
-    onCompleted: () => toast.success('Запись отменена'),
-    onError: (error) => toast.error(error.message),
+    onCompleted: () => notify.success('Запись отменена'),
+    onError: (error) => notify.error(error.message),
   })
   const [addFavorite, { loading: addingFavorite }] = useMutation(ADD_FAVORITE, {
     refetchQueries,
-    onCompleted: () => toast.success('Добавлено в избранное'),
-    onError: (error) => toast.error(error.message),
+    onCompleted: () => notify.success('Добавлено в избранное'),
+    onError: (error) => notify.error(error.message),
   })
   const [removeFavorite, { loading: removingFavorite }] = useMutation(
     REMOVE_FAVORITE,
     {
       refetchQueries,
-      onCompleted: () => toast.success('Убрано из избранного'),
-      onError: (error) => toast.error(error.message),
+      onCompleted: () => notify.success('Убрано из избранного'),
+      onError: (error) => notify.error(error.message),
     }
   )
 

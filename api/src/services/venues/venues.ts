@@ -9,17 +9,19 @@ import { ValidationError } from '@redwoodjs/graphql-server'
 import { requireAuth } from 'src/lib/auth'
 import { db } from 'src/lib/db'
 
-const validateVenue = (input: {
-  name?: string | null
-  address?: string | null
-}) => {
+const validateVenue = (input: { name?: string | null }) => {
   if ('name' in input && !input.name?.trim()) {
     throw new ValidationError('Название площадки обязательно')
   }
+}
 
-  if ('address' in input && !input.address?.trim()) {
-    throw new ValidationError('Адрес обязателен')
+const normalizeOptionalString = (value: string | null | undefined) => {
+  if (value === undefined) {
+    return undefined
   }
+
+  const trimmed = value.trim()
+  return trimmed.length > 0 ? trimmed : null
 }
 
 export const venues: QueryResolvers['venues'] = ({ input }) => {
@@ -57,6 +59,7 @@ export const createVenue: MutationResolvers['createVenue'] = ({ input }) => {
   return db.venue.create({
     data: {
       ...input,
+      address: normalizeOptionalString(input.address),
       amenities: input.amenities ?? [],
     },
   })
@@ -70,7 +73,10 @@ export const updateVenue: MutationResolvers['updateVenue'] = ({
   validateVenue(input)
 
   return db.venue.update({
-    data: input,
+    data: {
+      ...input,
+      address: normalizeOptionalString(input.address),
+    },
     where: { id },
   })
 }

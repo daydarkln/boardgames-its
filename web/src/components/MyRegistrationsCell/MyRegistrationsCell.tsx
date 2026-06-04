@@ -9,12 +9,13 @@ import type {
   TypedDocumentNode,
 } from '@redwoodjs/web'
 import { useMutation } from '@redwoodjs/web'
-import { toast } from '@redwoodjs/web/toast'
 
 import Badge from 'src/components/Badge/Badge'
 import Button from 'src/components/Button/Button'
 import EmptyState from 'src/components/EmptyState/EmptyState'
 import GameSessionCard from 'src/components/GameSessionCard/GameSessionCard'
+import Skeleton from 'src/components/Skeleton/Skeleton'
+import { notify } from 'src/components/ToastProvider/ToastProvider'
 import { formatStatus } from 'src/lib/categories'
 
 export const QUERY: TypedDocumentNode<
@@ -58,9 +59,7 @@ const CANCEL_REGISTRATION = gql`
   }
 `
 
-export const Loading = () => (
-  <div className="bg-white/8 h-72 animate-pulse rounded-lg" />
-)
+export const Loading = () => <Skeleton className="h-72" />
 
 export const Empty = () => <EmptyState title="Вы пока не записаны на игры" />
 
@@ -78,8 +77,8 @@ export const Success = ({
 }: CellSuccessProps<MyRegistrationsQuery, MyRegistrationsQueryVariables>) => {
   const [cancelRegistration, { loading }] = useMutation(CANCEL_REGISTRATION, {
     refetchQueries: ['MyRegistrationsQuery'],
-    onCompleted: () => toast.success('Запись отменена'),
-    onError: (error) => toast.error(error.message),
+    onCompleted: () => notify.success('Запись отменена'),
+    onError: (error) => notify.error(error.message),
   })
 
   return (

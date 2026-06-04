@@ -31,8 +31,8 @@ export const standard = (/* vars, { ctx, req } */) => ({
       __typename: 'Venue' as const,
       id: 1,
       name: 'Board Room',
-      address: 'Тверская, 12',
-      district: 'Тверская',
+      address: 'ул. Большая Садовая, 56',
+      district: 'Кировский',
     },
     registrations: [
       {

@@ -7,16 +7,16 @@ import {
   Label,
   NumberField,
   SelectField,
-  Submit,
   TextAreaField,
   TextField,
 } from '@redwoodjs/forms'
 import { navigate } from '@redwoodjs/router'
 import { Metadata, useMutation, useQuery } from '@redwoodjs/web'
-import { toast } from '@redwoodjs/web/toast'
 
+import Button from 'src/components/Button/Button'
 import Card from 'src/components/Card/Card'
 import PageHeader from 'src/components/PageHeader/PageHeader'
+import { notify } from 'src/components/ToastProvider/ToastProvider'
 import { routePath } from 'src/lib/routes'
 
 const CREATE_GAME_SESSION = gql`
@@ -43,7 +43,7 @@ type FormValues = {
   description: string
   category: 'BOARD_GAMES' | 'TTRPG' | 'MAFIA'
   gameSystem?: string
-  date: string
+  date: Date
   startTime: string
   endTime?: string
   maxPlayers: string
@@ -64,14 +64,14 @@ const AccountCreateGamePage = () => {
   const { data: venueData, loading: venuesLoading } = useQuery(VENUE_OPTIONS)
   const [createGame, { loading }] = useMutation(CREATE_GAME_SESSION, {
     onCompleted: ({ createGameSession }) => {
-      toast.success('Игра создана')
+      notify.success('Игра создана')
       navigate(
         routePath('game', `/games/${createGameSession.id}`, {
           id: createGameSession.id,
         })
       )
     },
-    onError: (error) => toast.error(error.message),
+    onError: (error) => notify.error(error.message),
   })
 
   const onSubmit = (data: FormValues) => {
@@ -80,19 +80,19 @@ const AccountCreateGamePage = () => {
       !data.connectionInfo?.trim() &&
       !data.connectionInfoLater
     ) {
-      toast.error(
+      notify.error(
         'Укажите детали подключения или отметьте, что сообщите их позже'
       )
       return
     }
 
     if (!data.isOnline && !data.venueId && !data.locationDetails?.trim()) {
-      toast.error('Для офлайн-игры выберите площадку или укажите адрес')
+      notify.error('Для офлайн-игры выберите площадку или укажите адрес')
       return
     }
 
     const date = new Date(
-      `${data.date}T${data.startTime || '00:00'}`
+      `${data.date.toISOString().split('T')[0]}T${data.startTime || '00:00'}`
     ).toISOString()
     const connectionInfo = data.connectionInfoLater
       ? 'Организатор сообщит детали подключения после записи'
@@ -143,10 +143,12 @@ const AccountCreateGamePage = () => {
               <Label
                 name="category"
                 className="text-sm font-bold text-slate-200"
-              />
+              >
+                Направление
+              </Label>
               <SelectField
                 name="category"
-                className="rw-input"
+                className="site-control mt-2 px-4"
                 validation={{ required: true }}
               >
                 <option value="BOARD_GAMES">Настолки</option>
@@ -158,59 +160,69 @@ const AccountCreateGamePage = () => {
               <Label
                 name="gameSystem"
                 className="text-sm font-bold text-slate-200"
-              />
+              >
+                Игра / система
+              </Label>
               <TextField
                 name="gameSystem"
-                className="rw-input"
+                className="site-control mt-2 px-4"
                 placeholder="D&D 5e, Крылья, Мафия Classic"
               />
             </div>
             <div>
-              <Label name="date" className="text-sm font-bold text-slate-200" />
+              <Label name="date" className="text-sm font-bold text-slate-200">
+                Дата
+              </Label>
               <TextField
                 name="date"
                 type="date"
-                className="rw-input"
+                className="site-control mt-2 px-4"
                 validation={{ required: true }}
               />
-              <FieldError name="date" className="rw-field-error" />
+              <FieldError name="date" className="site-field-error" />
             </div>
             <div>
               <Label
                 name="startTime"
                 className="text-sm font-bold text-slate-200"
-              />
+              >
+                Время начала
+              </Label>
               <TextField
                 name="startTime"
                 type="time"
-                className="rw-input"
+                className="site-control mt-2 px-4"
                 validation={{ required: true }}
               />
-              <FieldError name="startTime" className="rw-field-error" />
+              <FieldError name="startTime" className="site-field-error" />
             </div>
           </div>
 
           <div>
-            <Label name="title" className="text-sm font-bold text-slate-200" />
+            <Label name="title" className="text-sm font-bold text-slate-200">
+              Название
+            </Label>
             <TextField
               name="title"
-              className="rw-input"
+              className="site-control mt-2 px-4"
               validation={{ required: true }}
             />
-            <FieldError name="title" className="rw-field-error" />
+            <FieldError name="title" className="site-field-error" />
           </div>
 
           <div>
             <Label
               name="description"
               className="text-sm font-bold text-slate-200"
-            />
+            >
+              Описание
+            </Label>
             <TextAreaField
               name="description"
-              className="rw-input min-h-32"
+              className="site-control mt-2 min-h-32 px-4 py-3"
               validation={{ required: true }}
             />
-            <FieldError name="description" className="rw-field-error" />
+            <FieldError name="description" className="site-field-error" />
           </div>
 
           <div className="grid gap-5 md:grid-cols-4">
@@ -218,10 +230,12 @@ const AccountCreateGamePage = () => {
               <Label
                 name="maxPlayers"
                 className="text-sm font-bold text-slate-200"
-              />
+              >
+                Макс. игроков
+              </Label>
               <NumberField
                 name="maxPlayers"
-                className="rw-input"
+                className="site-control mt-2 px-4"
                 validation={{ required: true, min: 1 }}
               />
             </div>
@@ -229,19 +243,26 @@ const AccountCreateGamePage = () => {
               <Label
                 name="minPlayers"
                 className="text-sm font-bold text-slate-200"
-              />
+              >
+                Мин. игроков
+              </Label>
               <NumberField
                 name="minPlayers"
                 defaultValue={1}
-                className="rw-input"
+                className="site-control mt-2 px-4"
               />
             </div>
             <div>
               <Label
                 name="experienceLevel"
                 className="text-sm font-bold text-slate-200"
-              />
-              <SelectField name="experienceLevel" className="rw-input">
+              >
+                Уровень опыта
+              </Label>
+              <SelectField
+                name="experienceLevel"
+                className="site-control mt-2 px-4"
+              >
                 <option value="ANY">Любой опыт</option>
                 <option value="BEGINNER">Новичок</option>
                 <option value="INTERMEDIATE">Средний</option>
@@ -252,8 +273,14 @@ const AccountCreateGamePage = () => {
               <Label
                 name="endTime"
                 className="text-sm font-bold text-slate-200"
+              >
+                Время окончания
+              </Label>
+              <TextField
+                name="endTime"
+                type="time"
+                className="site-control mt-2 px-4"
               />
-              <TextField name="endTime" type="time" className="rw-input" />
             </div>
           </div>
 
@@ -265,6 +292,7 @@ const AccountCreateGamePage = () => {
               <CheckboxField
                 id="isOnline"
                 name="isOnline"
+                className="h-5 w-5 rounded-md border-white/15 bg-slate-950/60 text-violet-500 focus:ring-violet-300/45"
                 onChange={(event) => setIsOnline(event.target.checked)}
               />
               Онлайн-игра
@@ -274,8 +302,10 @@ const AccountCreateGamePage = () => {
                 <Label
                   name="venueId"
                   className="text-sm font-bold text-slate-200"
-                />
-                <SelectField name="venueId" className="rw-input">
+                >
+                  Площадка
+                </Label>
+                <SelectField name="venueId" className="site-control mt-2 px-4">
                   <option value="">
                     {venuesLoading ? 'Площадки загружаются...' : 'Без площадки'}
                   </option>
@@ -295,10 +325,12 @@ const AccountCreateGamePage = () => {
               <Label
                 name="locationDetails"
                 className="text-sm font-bold text-slate-200"
-              />
+              >
+                Адрес или ориентир
+              </Label>
               <TextField
                 name="locationDetails"
-                className="rw-input"
+                className="site-control mt-2 px-4"
                 placeholder="Адрес или ориентир, если площадки нет в списке"
               />
             </div>
@@ -308,10 +340,12 @@ const AccountCreateGamePage = () => {
                 <Label
                   name="connectionInfo"
                   className="text-sm font-bold text-slate-200"
-                />
+                >
+                  Детали подключения
+                </Label>
                 <TextAreaField
                   name="connectionInfo"
-                  className="rw-input min-h-24"
+                  className="site-control mt-2 min-h-24 px-4 py-3"
                   placeholder="Ссылка, Discord, Roll20, Foundry или другой способ подключения"
                 />
               </div>
@@ -322,6 +356,7 @@ const AccountCreateGamePage = () => {
                 <CheckboxField
                   id="connectionInfoLater"
                   name="connectionInfoLater"
+                  className="h-5 w-5 rounded-md border-white/15 bg-slate-950/60 text-violet-500 focus:ring-violet-300/45"
                 />
                 Сообщу детали подключения после записи
               </label>
@@ -329,31 +364,41 @@ const AccountCreateGamePage = () => {
           )}
 
           <div>
-            <Label name="tags" className="text-sm font-bold text-slate-200" />
+            <Label name="tags" className="text-sm font-bold text-slate-200">
+              Теги
+            </Label>
             <TextField
               name="tags"
-              className="rw-input"
+              className="site-control mt-2 px-4"
               placeholder="стратегия, новичкам, долгая игра"
             />
           </div>
 
           <div className="flex flex-wrap gap-5 text-sm font-semibold text-slate-200">
             <label htmlFor="isPrivate" className="flex items-center gap-2">
-              <CheckboxField id="isPrivate" name="isPrivate" />
+              <CheckboxField
+                id="isPrivate"
+                name="isPrivate"
+                className="h-5 w-5 rounded-md border-white/15 bg-slate-950/60 text-violet-500 focus:ring-violet-300/45"
+              />
               Приватная игра
             </label>
             <label
               htmlFor="requiresApproval"
               className="flex items-center gap-2"
             >
-              <CheckboxField id="requiresApproval" name="requiresApproval" />
+              <CheckboxField
+                id="requiresApproval"
+                name="requiresApproval"
+                className="h-5 w-5 rounded-md border-white/15 bg-slate-950/60 text-violet-500 focus:ring-violet-300/45"
+              />
               Подтверждать участников
             </label>
           </div>
 
-          <Submit disabled={loading} className="rw-button rw-button-blue">
+          <Button type="submit" disabled={loading}>
             Опубликовать игру
-          </Submit>
+          </Button>
         </Form>
       </Card>
     </>

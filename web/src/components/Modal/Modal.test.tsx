@@ -1,4 +1,4 @@
-import { render } from '@redwoodjs/testing/web'
+import { fireEvent, render, screen } from '@redwoodjs/testing/web'
 
 import Modal from './Modal'
 
@@ -10,5 +10,22 @@ describe('Modal', () => {
     expect(() => {
       render(<Modal />)
     }).not.toThrow()
+  })
+
+  it('renders open dialog content and closes through Radix close', () => {
+    const onClose = jest.fn()
+
+    render(
+      <Modal open title="Настройки" onClose={onClose}>
+        Контент
+      </Modal>
+    )
+
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
+    expect(screen.getByText('Контент')).toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { name: 'Закрыть' }))
+
+    expect(onClose).toHaveBeenCalled()
   })
 })

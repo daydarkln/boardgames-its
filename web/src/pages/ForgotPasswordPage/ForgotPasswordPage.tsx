@@ -1,11 +1,13 @@
 import { useEffect, useRef } from 'react'
 
-import { Form, Label, TextField, Submit, FieldError } from '@redwoodjs/forms'
-import { navigate } from '@redwoodjs/router'
+import { Form, Label, TextField, FieldError } from '@redwoodjs/forms'
+import { Link, navigate } from '@redwoodjs/router'
 import { Metadata } from '@redwoodjs/web'
-import { toast, Toaster } from '@redwoodjs/web/toast'
 
 import { useAuth } from 'src/auth'
+import AuthShell from 'src/components/AuthShell/AuthShell'
+import Button from 'src/components/Button/Button'
+import { notify } from 'src/components/ToastProvider/ToastProvider'
 import { routePath } from 'src/lib/routes'
 
 const ForgotPasswordPage = () => {
@@ -26,12 +28,9 @@ const ForgotPasswordPage = () => {
     const response = await forgotPassword(data.email)
 
     if (response.error) {
-      toast.error(response.error)
+      notify.error(response.error)
     } else {
-      // The function `forgotPassword.handler` in api/src/functions/auth.js has
-      // been invoked, let the user know how to get the link to reset their
-      // password (sent in email, perhaps?)
-      toast.success('Ссылка для сброса пароля отправлена на ' + response.email)
+      notify.success('Ссылка для сброса пароля отправлена на ' + response.email)
       navigate(routePath('login', '/login'))
     }
   }
@@ -40,58 +39,50 @@ const ForgotPasswordPage = () => {
     <>
       <Metadata title="Восстановление пароля" />
 
-      <main className="rw-main">
-        <Toaster toastOptions={{ className: 'rw-toast', duration: 6000 }} />
-        <div className="rw-scaffold rw-login-container">
-          <div className="rw-segment">
-            <header className="rw-segment-header">
-              <h2 className="rw-heading rw-heading-secondary">
-                Восстановление пароля
-              </h2>
-            </header>
+      <AuthShell
+        title="Восстановление пароля"
+        description="Укажите email, и мы отправим ссылку для сброса пароля."
+        activeTab="reset"
+        footer={
+          <Link to={routePath('login', '/login')} className="rw-link">
+            Вернуться ко входу
+          </Link>
+        }
+      >
+        <Form onSubmit={onSubmit} className="grid gap-4">
+          <div>
+            <Label
+              name="email"
+              className="text-sm font-bold text-slate-200"
+              errorClassName="text-sm font-bold text-rose-200"
+            >
+              Email
+            </Label>
+            <TextField
+              name="email"
+              className="site-control mt-2 px-4"
+              errorClassName="site-control mt-2 border-rose-300/60 px-4"
+              ref={emailRef}
+              validation={{
+                required: {
+                  value: true,
+                  message: 'Email обязателен',
+                },
+                pattern: {
+                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                  message: 'Введите корректный email',
+                },
+              }}
+            />
 
-            <div className="rw-segment-main">
-              <div className="rw-form-wrapper">
-                <Form onSubmit={onSubmit} className="rw-form-wrapper">
-                  <div className="text-left">
-                    <Label
-                      name="email"
-                      className="rw-label"
-                      errorClassName="rw-label rw-label-error"
-                    >
-                      Email
-                    </Label>
-                    <TextField
-                      name="email"
-                      className="rw-input"
-                      errorClassName="rw-input rw-input-error"
-                      ref={emailRef}
-                      validation={{
-                        required: {
-                          value: true,
-                          message: 'Email обязателен',
-                        },
-                        pattern: {
-                          value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                          message: 'Введите корректный email',
-                        },
-                      }}
-                    />
-
-                    <FieldError name="email" className="rw-field-error" />
-                  </div>
-
-                  <div className="rw-button-group">
-                    <Submit className="rw-button rw-button-blue">
-                      Отправить
-                    </Submit>
-                  </div>
-                </Form>
-              </div>
-            </div>
+            <FieldError name="email" className="site-field-error" />
           </div>
-        </div>
-      </main>
+
+          <Button type="submit" className="w-full">
+            Отправить
+          </Button>
+        </Form>
+      </AuthShell>
     </>
   )
 }

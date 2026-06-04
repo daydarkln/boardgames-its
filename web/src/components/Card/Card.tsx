@@ -1,5 +1,7 @@
 import type { HTMLAttributes, ReactNode } from 'react'
 
+import { Card as RadixCard } from '@radix-ui/themes'
+
 import { cn } from 'src/lib/cn'
 
 type CardProps = HTMLAttributes<HTMLDivElement> & {
@@ -14,7 +16,7 @@ const Card = ({
   ...props
 }: CardProps) => {
   return (
-    <div
+    <RadixCard
       className={cn(
         'glass-panel glow-card rounded-lg',
         interactive &&
@@ -24,7 +26,7 @@ const Card = ({
       {...props}
     >
       {children}
-    </div>
+    </RadixCard>
   )
 }
 

@@ -277,6 +277,16 @@
 .hero-skew-carousel__copy {
   width: min(100%, 35rem);
   padding-block: 1.5rem 2.5rem;
+  animation: fadeInTranslate 0.3s ease-in-out;
+}
+@keyframes fadeInTranslate {
+  from {
+    opacity: 0;
+    transform: translateY(0.85rem);
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .hero-skew-carousel__label {

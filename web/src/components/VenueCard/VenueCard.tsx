@@ -31,6 +31,7 @@ const VenueCard = ({ venue }: VenueCardProps) => {
     typeof routes.venue === 'function'
       ? routes.venue({ id: venue.id })
       : `/venues/${venue.id}`
+  const location = venue.district ?? venue.address
 
   return (
     <Link to={venuePath}>
@@ -59,10 +60,12 @@ const VenueCard = ({ venue }: VenueCardProps) => {
               {venue.rating?.toFixed(1) ?? '0.0'}
             </span>
           </div>
-          <p className="mt-4 flex items-center gap-2 text-sm font-semibold text-slate-200">
-            <MapPin className="h-4 w-4 text-sky-300" />
-            {venue.district ?? venue.address ?? 'Адрес уточняется'}
-          </p>
+          {location && (
+            <p className="mt-4 flex items-center gap-2 text-sm font-semibold text-slate-200">
+              <MapPin className="h-4 w-4 text-sky-300" />
+              {location}
+            </p>
+          )}
           <div className="mt-4 flex flex-wrap gap-2">
             {(venue.amenities ?? []).slice(0, 3).map((amenity) => (
               <Badge key={amenity} tone="slate">

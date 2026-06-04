@@ -4,7 +4,7 @@ export const schema = gql`
     name: String!
     description: String!
     detailedDescription: String
-    address: String!
+    address: String
     district: String
     city: String!
     websiteUrl: String
@@ -34,7 +34,7 @@ export const schema = gql`
     name: String!
     description: String!
     detailedDescription: String
-    address: String!
+    address: String
     district: String
     city: String!
     websiteUrl: String

@@ -71,10 +71,12 @@ export const Success = ({
             <h1 className="mt-5 font-heading text-4xl font-medium leading-[0.96] text-white md:text-5xl">
               {venue.name}
             </h1>
-            <p className="mt-4 flex items-center gap-2 text-sm font-bold text-slate-200">
-              <MapPin className="h-4 w-4 text-sky-300" />
-              {venue.address}
-            </p>
+            {venue.address && (
+              <p className="mt-4 flex items-center gap-2 text-sm font-bold text-slate-200">
+                <MapPin className="h-4 w-4 text-sky-300" />
+                {venue.address}
+              </p>
+            )}
           </div>
         </div>
         <div className="p-6">

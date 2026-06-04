@@ -71,7 +71,7 @@ const Venue = ({ venue }: Props) => {
             </tr>
             <tr>
               <th>Address</th>
-              <td>{venue.address}</td>
+              <td>{venue.address?.trim() || '—'}</td>
             </tr>
             <tr>
               <th>District</th>

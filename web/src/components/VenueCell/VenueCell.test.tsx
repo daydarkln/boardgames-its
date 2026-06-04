@@ -1,4 +1,4 @@
-import { render } from '@redwoodjs/testing/web'
+import { render, screen } from '@redwoodjs/testing/web'
 
 import { Loading, Empty, Failure, Success } from './VenueCell'
 import { standard } from './VenueCell.mock'
@@ -28,15 +28,18 @@ describe('VenueCell', () => {
     }).not.toThrow()
   })
 
-  // When you're ready to test the actual output of your component render
-  // you could test that, for example, certain text is present:
-  //
-  // 1. import { screen } from '@redwoodjs/testing/web'
-  // 2. Add test: expect(screen.getByText('Hello, world')).toBeInTheDocument()
-
   it('renders Success successfully', async () => {
     expect(() => {
       render(<Success id={42} venue={standard().venue} />)
     }).not.toThrow()
+  })
+
+  it('hides the address block when a venue has no address', async () => {
+    const venue = { ...standard().venue, address: null }
+
+    render(<Success id={42} venue={venue} />)
+
+    expect(screen.getByText('Board Room')).toBeInTheDocument()
+    expect(screen.queryByText('Тверская, 12')).not.toBeInTheDocument()
   })
 })

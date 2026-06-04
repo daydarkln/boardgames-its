@@ -83,7 +83,7 @@ model Venue {
   name                String
   description         String
   detailedDescription String?
-  address             String
+  address             String?
   district            String?
   city                String   @default("Москва")
   websiteUrl          String?
